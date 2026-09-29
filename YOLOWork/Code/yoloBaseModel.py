@@ -13,13 +13,24 @@ output = "YOLOWork/Code/videoRecordings"
 
 # Define yolo model so that we can use it in predictions
 
-# Define the video recording function
+# Define the video recording function -- IMPLEMENT LATER
 
 # White we do not quit the program, keep reading and showing the screen
 while True:
     # I forgot that I haven't used an actual camera from a laptop in like a year, which means that I need to figure out how to do that in a non-pi setting
     # videoStream = 
 
-    # Record user input
-    keyPressed = cv2.waitKey(1)
+    # Show our preview 
     cv2.imshow()
+
+    # Record user input
+    keyPressed = cv2.waitKey(0)
+    
+    if keyPressed == ord('q'):
+        # If we pressed q, quit
+        break
+    # IMPLEMENT SAVING VIDEOS AT SOME POINT
+    # elif keyPressed == ord('s'):
+
+
+cv2.destroyAllWindows()
