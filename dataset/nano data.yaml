@@ -1,0 +1,9 @@
+# Wherever we put in onto the lab machine, that's where this path will change
+path: /home/YOUR_USERNAME/CLAWCSComps/dataset
+
+train: images/train
+val: images/val
+
+names:
+  0: person
+  1: car
