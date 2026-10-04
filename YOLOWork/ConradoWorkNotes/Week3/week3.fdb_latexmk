@@ -1,6 +1,6 @@
 # Fdb version 4
-["pdflatex"] 1791145206.15745 "/Users/penalemesc/Documents/Github/CLAWCSComps/YOLOWork/ConradoWorkNotes/Week3/week3.tex" "week3.pdf" "week3" 1791145206.65428 0
-  "/Users/penalemesc/Documents/Github/CLAWCSComps/YOLOWork/ConradoWorkNotes/Week3/week3.tex" 1791145205.98853 3059 832311feb4f98553e4b1910d1315d002 ""
+["pdflatex"] 1791148148.86298 "/Users/penalemesc/Documents/Github/CLAWCSComps/YOLOWork/ConradoWorkNotes/Week3/week3.tex" "week3.pdf" "week3" 1791148149.56676 0
+  "/Users/penalemesc/Documents/Github/CLAWCSComps/YOLOWork/ConradoWorkNotes/Week3/week3.tex" 1791148148.6778 4063 0f1645725cad799a323c2b253d80f122 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/map/fontname/texfonts.map" 1577235249 3524 cb3e574dea2d1052e39280babc910dc8 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/jknappen/ec/ectt1000.tfm" 1136768653 1536 06717a2b50de47d4087ac0e6cd759455 ""
   "/usr/local/texlive/2025/texmf-dist/fonts/tfm/public/amsfonts/cmextra/cmex7.tfm" 1246382020 1004 54797486969f23fa377b128694d548df ""
@@ -155,9 +155,9 @@
   "/usr/local/texlive/2025/texmf-var/fonts/map/pdftex/updmap/pdftex.map" 1760959143 5467155 19efa205003f9ecad95fbbaa6ff24da1 ""
   "/usr/local/texlive/2025/texmf-var/web2c/pdftex/pdflatex.fmt" 1760959086 3345740 a1b56dcd80ff49d7c39147e36a69b58f ""
   "/usr/local/texlive/2025/texmf.cnf" 1741450484 577 418a7058ec8e006d8704f60ecd22c938 ""
-  "week3.aux" 1791145206.6225 162 55205a9e8a8eca30d36afb389b0617bf "pdflatex"
-  "week3.out" 1791145206.51139 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
-  "week3.tex" 1791145205.98853 3059 832311feb4f98553e4b1910d1315d002 ""
+  "week3.aux" 1791148149.52675 162 55205a9e8a8eca30d36afb389b0617bf "pdflatex"
+  "week3.out" 1791148149.39097 0 d41d8cd98f00b204e9800998ecf8427e "pdflatex"
+  "week3.tex" 1791148148.6778 4063 0f1645725cad799a323c2b253d80f122 ""
   (generated)
   "week3.aux"
   "week3.log"

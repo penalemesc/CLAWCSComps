@@ -54,4 +54,12 @@ Improvements for our project when comparing it to the other project:
 \end{enumerate}
 
 As an update to the earlier comment of having forgotten how to use a camera that is not from an rpi, I knew I had done this for work once before, so I looked through my old files, found an example of it and in that example I have a link to: \underline{\textbf{\href{https://www.youtube.com/watch?v=rKcwcARdg9M&list=PLzMcBGfZo4-lUA8uGjeXhBUUzPYc6vZRn&index=4}{This youtube video}}} and it appears that i got the base of "ret, videoStream = cam.read()" used in line 25 from that.
+
+Lines 32 and 33 of "yoloBaseModel.py" are based on my previous work:
+\begin{enumerate}
+    \item "videoStream": is our source
+    \item "imgsz = 640": resizes the input to a 320x320 image (\href{https://docs.ultralytics.com/modes/train?h=arguments#train-settings}{yolo docs}). Making that number smaller improves performance significantly, but it does also mean the model will make worse predictions (since it has access to less information, since the image is shurnken using some method)
+    \item "verbose = false": prevents the program from writing to terminal where and what predictions are made. It makes execution run slightly faster (needed in the context of what I was doing at the time, which is using an rpi, a not very powerful device) \href{https://docs.ultralytics.com/usage/cfg}{Yolo docs}
+\end{enumerate} 
+From reading my own old documentation, a lot of it stems from \href{https://www.youtube.com/watch?v=XKIm_R_rIeQ&list=PLRJVNUMAwcElierYZQCkbLG_jknYeevLz&index=5}{this youtube video} 
 \end{document}

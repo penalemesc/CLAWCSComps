@@ -9,11 +9,11 @@ from ultralytics import YOLO
 # Define the output path
 output = "YOLOWork/Code/videoRecordings"
 
-# Define camera object
+# Define camera object CHANGE THIS FOR YOUR OWN MACHINES, IN MINE (CPL), INDEX 2 IS THE ONE THAT HAS THE CAMERA THAT I ACTUALLY INTEND TO USE, IN MOST MACHINES IT IS 0, I am unsure at this point how to check other than simply run the program with different indexes
 cam = cv2.VideoCapture(2)
 
-
 # Define yolo model so that we can use it in predictions
+model = YOLO("yolov8n.pt")
 
 # Define the video recording function -- IMPLEMENT LATER
 
@@ -27,8 +27,12 @@ while True:
         print("Cannot read camera, exiting now")
         break
 
+    # Use our model to predict on the video stream
+    predictions = model(videoStream, imgsz = 640, verbose = False)
+    predictedStream = predictions[0].plot()
+    
     # Show our preview with the predictions that we make
-    cv2.imshow('Preview', videoStream)
+    cv2.imshow('Preview', predictedStream)
 
     # Record user input, wait a milisecond so that the program can actually keep reading the videostream
     keyPressed = cv2.waitKey(1)
