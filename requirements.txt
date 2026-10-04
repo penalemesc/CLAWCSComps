@@ -12,14 +12,12 @@ ultralytics
 opencv-python
 numpy
 matplotlib
+opencv-python
 
 # Deep learning
 torch
 torchvision
 tensorflow
-
-# Waymo Open Dataset
-waymo-open-dataset-tf-2-11-0==1.5.1
 
 # Supporting libraries
 protobuf
