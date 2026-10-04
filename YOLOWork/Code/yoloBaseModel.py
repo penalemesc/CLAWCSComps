@@ -10,6 +10,8 @@ from ultralytics import YOLO
 output = "YOLOWork/Code/videoRecordings"
 
 # Define camera object
+cam = cv2.VideoCapture(2)
+
 
 # Define yolo model so that we can use it in predictions
 
@@ -17,24 +19,32 @@ output = "YOLOWork/Code/videoRecordings"
 
 # White we do not quit the program, keep reading and showing the screen
 while True:
-    # I forgot that I haven't used an actual camera from a laptop in like a year, which means that I need to figure out how to do that in a non-pi setting
-    # videoStream = 
+    # cam.read() returns a tuple, a boolean which defines whether or not we could read the camera, and an image which is 'read' at the given time when it gives 
+    ret, videoStream = cam.read()
 
-    # Show our preview 
-    cv2.imshow()
+    # If we cannot read the camera, send an error in console and exit the program
+    if ret == False:
+        print("Cannot read camera, exiting now")
+        break
 
-    # Record user input
-    keyPressed = cv2.waitKey(0)
-    
+    # Show our preview with the predictions that we make
+    cv2.imshow('Preview', videoStream)
+
+    # Record user input, wait a milisecond so that the program can actually keep reading the videostream
+    keyPressed = cv2.waitKey(1)
+
+    # If we pressed q, quit
     if keyPressed == ord('q'):
-        # If we pressed q, quit
         break
     # IMPLEMENT SAVING VIDEOS AT SOME POINT
     # elif keyPressed == ord('s'):
 
-
+# Allow the camera to be used by other programs and destroy all preview windows
+cam.release()
 cv2.destroyAllWindows()
 
+
+# Luke, where's this from? - Conrado
 #  Working with waymo dataset notes
 #  validate on pc - gcloud auth application-default login
 #  TensorFlow's tf.data.TFRecordDataset can read files directly from a Google Cloud Storage path prefix (gs://). The file stays in the cloud, and data streams frame-by-frame directly into your system memory
