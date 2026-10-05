@@ -1,4 +1,4 @@
-# Wherever we put in onto the lab machine, that's where this path will change
+# Change path once on lab machine
 path: /home/YOUR_USERNAME/CLAWCSComps/dataset
 
 train: images/train
