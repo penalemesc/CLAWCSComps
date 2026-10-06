@@ -7,16 +7,19 @@
 # TO DO: ALL COMMENTS ON THIS FILE
 import cv2
 
-cam = cv2.VideoCapture(0)
+cam = cv2.VideoCapture(1)
 
 while True: 
     ret, videoStream = cam.read()
 
     grayscale = cv2.cvtColor(videoStream, cv2.COLOR_BGR2GRAY)
+    # So fun little thing, because of how I do the otsu thresholding (poorly), resizing the image is a somewhat good idea for improving performance
+    grayscale = cv2.resize(grayscale, (320, 200))
+    """ distribution = grayscale.ravel()
+    mean = distribution.mean() """
+    # I did a test, it 
+    otsuThresh = 150 #round(mean)
 
-    distribution = grayscale.ravel()
-    mean = distribution.mean()
-    otsuThresh = round(mean)
 
     for x in range(len(grayscale)):
         for y in range(len(grayscale[x])):
@@ -25,6 +28,8 @@ while True:
             else:
                 grayscale[x,y] = 0
 
+    # Resizing it back up produces interesting results 
+    grayscale = cv2.resize(grayscale, (1200, 750))
     cv2.imshow("Otsu's Image", grayscale)
     keyPress = cv2.waitKey(1)
     if keyPress == ord('q'):

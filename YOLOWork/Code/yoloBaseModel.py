@@ -13,7 +13,7 @@ inputPath = "weDoNotHaveFilesYet"
 output = "YOLOWork/Code/videoRecordings"
 
 # Define the input files 
-files = os.listdir(inputPath)
+#files = os.listdir(inputPath)
 
 # Define camera object CHANGE THIS FOR YOUR OWN MACHINES, IN MINE (CPL), INDEX 2 IS THE ONE THAT HAS THE CAMERA THAT I ACTUALLY INTEND TO USE, IN MOST MACHINES IT IS 0, I am unsure at this point how to check other than simply run the program with different indexes
 cam = cv2.VideoCapture(0)
@@ -58,6 +58,7 @@ def realTime(cam, model):
             break
         # IMPLEMENT SAVING VIDEOS AT SOME POINT
         # elif keyPressed == ord('s'):
+    
 
 def predictFiles(files, path, model):
     for file in files:
@@ -69,7 +70,9 @@ def predictFiles(files, path, model):
         while keypressed != ord('n'):
             waiting = True
             keyBehaviour(keypressed)
-        
+
+
+
 # Allow the camera to be used by other programs and destroy all preview windows
 cam.release()
 cv2.destroyAllWindows()
