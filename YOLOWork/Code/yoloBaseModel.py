@@ -70,7 +70,6 @@ def predictFiles(files, path, model):
             waiting = True
             keyBehaviour(keypressed)
         
-
 # Allow the camera to be used by other programs and destroy all preview windows
 cam.release()
 cv2.destroyAllWindows()
