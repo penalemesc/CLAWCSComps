@@ -9,3 +9,8 @@ WORKDIR /sam3
 RUN pip install --no-cache-dir -e .
 
 WORKDIR /app
+
+# Copy your Python script into the container
+COPY sam3_test.py /app/sam3_test.py 
+# Run the script when the container starts
+CMD ["python", "sam3_test.py"]
