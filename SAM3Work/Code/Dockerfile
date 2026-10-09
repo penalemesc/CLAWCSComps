@@ -7,10 +7,11 @@ RUN pip install --no-cache-dir torch torchvision --index-url https://download.py
 RUN git clone https://github.com/facebookresearch/sam3.git /sam3
 WORKDIR /sam3
 RUN pip install --no-cache-dir -e .
+RUN pip install einops pycocotools psutil
 
 WORKDIR /app
 
-# Copy your Python script into the container
+# Copy the Python script into the container
 COPY sam3_test.py /app/sam3_test.py 
 # Run the script when the container starts
 CMD ["python", "sam3_test.py"]

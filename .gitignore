@@ -1,2 +1,5 @@
 venv/
 .venv/
+
+# Ignore Sam3 weights - download from drive
+SAM3Work/Code/sam3.pt
