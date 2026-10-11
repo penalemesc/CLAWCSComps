@@ -1,3 +1,4 @@
+import os
 import torch
 from PIL import ImageDraw
 from PIL import Image
@@ -32,8 +33,13 @@ while True:
     print("Boxes:", boxes)
     print("Scores:", scores)
 
-    draw = ImageDraw.Draw(image)
-    for box in boxes.float().cpu().tolist():
+    annotated = image.convert("RGB")
+    draw = ImageDraw.Draw(annotated)
+    for box, score in zip(boxes.float().cpu().tolist(), scores.float().cpu().tolist()):
         x0, y0, x1, y1 = box
-        draw.rectangle([x0, y0, x1, y1], outline="lime", width=2)
-    image.show()
+        draw.rectangle([x0, y0, x1, y1], outline="lime", width=4)
+        draw.text((x0 + 4, y0 + 4), f"{score:.2f}", fill="lime")
+
+    out_path = f"{os.path.splitext(os.path.basename(image_name))[0]}_annotated.png"
+    annotated.save(out_path)
+    print(f"Saved annotated image to {os.path.abspath(out_path)}")
