@@ -1,9 +1,29 @@
-# CLAWCSComps
-This repository is meant to hold all of the writeups and code used by the CLAW (Conrado, Luke, Amery, and Walter) team. 
+# SharedGT
 
-## Folder structure
-1. **SAM3Work** contains all of the work related to the SAM3 model. The people focusing on this side of the project are Amery and Walter.
+Shared labels and splits for all four runs: YOLO and SAM 3, zero-shot and fine-tuned. No images are copied; everything points into `dataset/`.
 
-2. **YOLOWork** contains all of the work related to the YOLO model. The people focusing on this side of the project are Conrado and Luke. 
+- Boxes are our `dataset/labels`, car only.
+- 6 images are dropped (`excluded.txt`). They are portrait photos whose masks don't match the image.
+- `test` is `dataset/images/val`, only for final scores.
+- `dev` is 499 fixed images from train, for picking epochs, checkpoints and thresholds.
+- `train` is the rest of train.
 
-3. **readme.md** is the file that you are currently reading.
+| split | images | car boxes |
+|---|---|---|
+| train | 6497 | 27751 |
+| dev | 499 | 2151 |
+| test | 998 | 4357 |
+
+## Use
+
+YOLO (`val` in the yaml is dev):
+
+    yolo detect train data=SharedGT/yolo/car.yaml model=yolo26m.pt classes=[1]
+
+SAM 3: `coco/train_car.json` and `coco/dev_car.json` go with `img_folder: dataset/images/train/`, `coco/test_car.json` with `dataset/images/val/`. The prompt is `car`.
+
+Score both models with the same COCO evaluator on `coco/test_car.json`. `splits/` has plain file-name lists if you need them.
+
+Our boxes come from the segmentation masks, so touching cars share one box. This keeps box AP low for both models.
+
+Rebuild: `python SharedGT/build_shared_gt.py`

@@ -1,0 +1,10 @@
+# val = dev. Train car only:
+# yolo detect train data=SharedGT/yolo/car.yaml model=yolo26m.pt classes=[1]
+
+train: train.txt
+val: dev.txt
+test: test.txt
+
+names:
+  0: person
+  1: car
