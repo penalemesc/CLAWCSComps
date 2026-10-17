@@ -1,0 +1,4 @@
+model,AP,AP50,AP75,AP_small,AP_medium,AP_large,AR100,threshold,precision,recall,F1,pixel_IoU_box,pixel_Dice_box,pixel_IoU_mask,pixel_Dice_mask,latency_ms,fps,memory_GB,device
+yolo26m,0.150,0.291,0.129,0.061,0.142,0.236,0.402,0.454,0.350,0.444,0.392,0.646,0.785,,,15.1,66.2,1.1,mps
+yolo26m_nmsfree,0.141,0.277,0.122,0.058,0.128,0.225,0.430,0.430,0.349,0.438,0.388,0.641,0.781,,,14.2,70.3,1.1,mps
+sam3,0.159,0.306,0.138,0.082,0.132,0.246,0.425,0.773,0.357,0.445,0.396,0.740,0.850,0.846,0.917,1166.3,0.9,7.3,mps
