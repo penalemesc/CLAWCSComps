@@ -1,0 +1,9 @@
+# Run make_yolo_labels.py once first. val = dev.
+# yolo detect train data=SharedGT/yolo/car.yaml model=yolo26m.pt
+
+train: train.txt
+val: dev.txt
+test: test.txt
+
+names:
+  0: car

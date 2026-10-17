@@ -1,0 +1,6 @@
+train/3d581db5-2564fb7e.jpg	# no BDD panoptic label
+train/52e3fd10-c205dec2.jpg	# no BDD panoptic label
+train/781756b0-61e0a182.jpg	# no BDD panoptic label
+train/78ac84ba-07bd30c2.jpg	# no BDD panoptic label
+val/80a9e37d-e4548ac1.jpg	# no BDD panoptic label
+val/9342e334-33d167eb.jpg	# no BDD panoptic label
