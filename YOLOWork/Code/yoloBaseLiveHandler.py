@@ -13,14 +13,14 @@ outputPath = "YOLOWork/Code/yoloPredictions/livePredictions/"
 cam = cv2.VideoCapture(1)
 
 # Define yolo model so that we can use it in predictions
-model = YOLO("yolo26n.pt")
+boxModel = YOLO("YOLOWork/Code/Tests/TrainingTests/carYOLO26v2/weights/boundingCarYOLO.pt")
 
 # Define the real-time prediction function
-def realTimeFeed(cam, model):
+def realTimeFeed(camera, model):
     # While we do not quit the program, keep reading and showing the screen
     while True:
-        # cam.read() returns a tuple, a boolean which defines whether or not we could read the camera, and an image which is 'read' at the given time when it gives 
-        ret, videoStream = cam.read()
+        # cam.read() returns a tuple, a boolean which defines whether or not we could read the camera, and an image which is 'read' at the given time when it is called
+        ret, videoStream = camera.read()
 
         # If we cannot read the camera, send an error in console and exit the program
         if ret == False:
@@ -40,12 +40,13 @@ def realTimeFeed(cam, model):
         # If we pressed q, quit
         if keyPressed == ord('q'):
             break
-        # IMPLEMENT SAVING VIDEOS AT SOME POINT
-        # elif keyPressed == ord('s'):
+    camera.release()
+    cv2.destroyAllWindows()
+        
 
 # Infer in real time and save the inferences as an mp4 video for qualitative analysis
-# Input is the ca
-def realTimeSave(camera, model):
+# Input is the camera that we are using and the model that we want to use
+def realTimeSave(camera, outPath, model):
     # Get the camera width, height and Frames Per Second so that we can properly set up our save file
     w = int(camera.get(cv2.CAP_PROP_FRAME_WIDTH))
     h = int(camera.get(cv2.CAP_PROP_FRAME_HEIGHT))
@@ -53,7 +54,7 @@ def realTimeSave(camera, model):
     # Define our video codex as mp4
     fourCC = cv2.VideoWriter_fourcc(*'mp4v')
     # Define our video writer, so that we can actually store the videos somewhere
-    outVid = cv2.VideoWriter((outputPath + 'liveVideo.mp4'), fourCC, fps/2, (w,h))   # Unfortunately I have not been able to find a way to read user input without showing said input to the user in the case of live feed, so CPL arbitrarily decided to halve fps as a test and it worked well enough on his bad PC that it was left as such.
+    outVid = cv2.VideoWriter((outPath + 'liveVideo.mp4'), fourCC, fps/2, (w,h))   # Unfortunately I have not been able to find a way to read user input without showing said input to the user in the case of live feed, so CPL arbitrarily decided to halve fps as a test and it worked well enough on his bad PC that it was left as such.
     while True: 
          # cam.read() returns a tuple, a boolean which defines whether or not we could read the camera, and an image which is 'read' at the given time when it gives 
         ret, videoStream = camera.read()
@@ -78,8 +79,13 @@ def realTimeSave(camera, model):
         # If we pressed q, quit
         if keyPressed == ord('q'):
             break
+    camera.release()
+    outVid.release()
+    cv2.destroyAllWindows()
 
-realTimeSave(cam, model)
+realTimeFeed(cam, boxModel)
+realTimeSave(cam, outputPath, boxModel)
+
 # Allow the camera to be used by other programs and destroy all preview windows
 cam.release()
 cv2.destroyAllWindows()
