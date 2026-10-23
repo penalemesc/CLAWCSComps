@@ -30,10 +30,8 @@ def predictFiles(inFiles, inPath, model):
         elif file.find(".mp4") != -1 or file.find(".avi") != -1:
             isImage = False
         else: 
-            print("File" + file + "not accepted, please remove it from the source folder and run this program again")
+            print("File \"" + file + "\"not accepted, please remove it from the source folder and run this program again")
             exit()
-        """ elif  != -1:
-            isImage = True """
         print(isImage)
         if isImage == True:
             prediction = model((inPath + file), imgsz = 640, verbose = False)
@@ -68,14 +66,13 @@ def saveFromFile(inFiles, inPath, outPath, model):
         elif file.find(".avi") != -1:
             fourCC = cv2.VideoWriter_fourcc(*'XVID')
         else: 
-            print("File" + file + "not accepted, please remove it from the source folder, and run this program again")
+            print("File \"" + file + "\" not accepted, please remove it from the source folder, and run this program again")
             exit()
 
         if isImage == True:
             prediction = model((inPath + file), imgsz = 640, verbose = False)
             predictedFile = prediction[0].plot()
             cv2.imwrite((outPath + file), predictedFile)
-
         else: 
             cam = cv2.VideoCapture(inPath + file)
             w = int(cam.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -93,6 +90,6 @@ def saveFromFile(inFiles, inPath, outPath, model):
     cam.release()
     outVid.release()
 
-predictFiles(files, inputPath, model)
+saveFromFile(files, inputPath, outputPath, model)
 
 cv2.destroyAllWindows()
