@@ -18,7 +18,8 @@ RUN pip install --no-cache-dir \
     triton \
     pycocotools \
     psutil \
-    tqdm
+    tqdm \
+    opencv-python 
 
 RUN git clone https://github.com/facebookresearch/sam3.git /sam3
 WORKDIR /sam3

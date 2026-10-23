@@ -38,7 +38,7 @@ from sam3.train.loss.sam3_loss import Sam3LossWrapper
 # Fixed Configuration
 # ---------------------------------------------------------------------------
 PROMPT = "Cars"
-DATASET_DIR = Path("./dataset")
+DATASET_DIR = Path("/dataset")
 CHECKPOINT_PATH = "sam3.pt"
 BPE_PATH = "/sam3/sam3/assets/bpe_simple_vocab_16e6.txt.gz"
 OUTPUT_DIR = Path("./checkpoints")
@@ -47,7 +47,6 @@ RESOLUTION = 1008
 EPOCHS = 20
 BATCH_SIZE = 1
 GRAD_ACCUM = 4
-
 
 # ---------------------------------------------------------------------------
 # 1. Dataset to COCO JSON Converter
