@@ -48,9 +48,6 @@ EPOCHS = 20
 BATCH_SIZE = 1
 GRAD_ACCUM = 4
 
-# ---------------------------------------------------------------------------
-# 1. Dataset to COCO JSON Converter
-# ---------------------------------------------------------------------------
 def build_coco_json(split: str) -> tuple[str, str]:
     images_dir = DATASET_DIR / "images" / split
     masks_dir = DATASET_DIR / "bw_masks" / split
@@ -113,10 +110,6 @@ def build_coco_json(split: str) -> tuple[str, str]:
 
     return str(images_dir), str(output_json)
 
-
-# ---------------------------------------------------------------------------
-# 2. Transforms & Loss Builders
-# ---------------------------------------------------------------------------
 def build_transforms(is_train: bool = True):
     steps = [
         FlexibleFilterFindGetQueries(query_filter=FilterCrowds()),
@@ -157,10 +150,6 @@ def build_loss():
         normalization="local",
     )
 
-
-# ---------------------------------------------------------------------------
-# 3. Main Training Loop
-# ---------------------------------------------------------------------------
 def main():
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
