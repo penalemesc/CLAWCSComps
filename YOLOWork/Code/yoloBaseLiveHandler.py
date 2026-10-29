@@ -2,9 +2,12 @@
 # All of the code present here (at the time of 29/9/26 (d/m/y))is created by CPL based on his previous research, unless otherwise specified
 
 # Import dependencies
-import cv2
 import os
+os.environ["OPENCV_VIDEOIO_MSMF_ENABLE_HW_TRANSFORMS"] = "0"
+import cv2
 from ultralytics import YOLO
+import time
+
 
 # Define the output path
 outputPath = "YOLOWork/Code/yoloPredictions/livePredictions/"
@@ -13,7 +16,7 @@ outputPath = "YOLOWork/Code/yoloPredictions/livePredictions/"
 cam = cv2.VideoCapture(1)
 
 # Define yolo model so that we can use it in predictions
-boxModel = YOLO("YOLOWork/Code/Tests/TrainingTests/carYOLO26v2/weights/boundingCarYOLO.pt")
+boxModel = YOLO("YOLOWork/Code/Tests/TrainingTests/boundingCarYOLO26/weights/boundingCarYOLO.pt")
 
 # Define the real-time prediction function
 def realTimeFeed(camera, model):
@@ -39,9 +42,9 @@ def realTimeFeed(camera, model):
 
         # If we pressed q, quit
         if keyPressed == ord('q'):
+            cv2.destroyWindow("Preview")
+            camera.release()
             break
-    camera.release()
-    cv2.destroyAllWindows()
         
 
 # Infer in real time and save the inferences as an mp4 video for qualitative analysis
@@ -78,12 +81,14 @@ def realTimeSave(camera, outPath, model):
         
         # If we pressed q, quit
         if keyPressed == ord('q'):
+            cv2.destroyWindow("Preview")
+            camera.release()
+            outVid.release()
             break
-    camera.release()
-    outVid.release()
-    cv2.destroyAllWindows()
 
 realTimeFeed(cam, boxModel)
+cv2.destroyAllWindows()
+cam.release()
 realTimeSave(cam, outputPath, boxModel)
 
 # Allow the camera to be used by other programs and destroy all preview windows

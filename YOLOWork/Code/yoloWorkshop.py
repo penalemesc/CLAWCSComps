@@ -23,17 +23,14 @@ outputPath = "YOLOWork/Code/yoloPredictions/livePredictions/"
 
 
 printBase()
-
-while True:
-    printMenu()
-    usrInput = input()
-    if usrInput == "1":
-        camera = cv2.VideoCapture(1)
-        realTimeFeed(camera, boxModel)
-        time.sleep(250)
-    elif usrInput == "2":
-        camera = cv2.VideoCapture(1)
-        realTimeSave(camera, outputPath, boxModel)
-    else:
-        exit()
+printMenu()
+usrInput = input()
+if usrInput == "1":
+    camera = cv2.VideoCapture(1)
+    realTimeFeed(camera, boxModel)
+elif usrInput == "2":
+    camera = cv2.VideoCapture(1)
+    realTimeSave(camera, outputPath, boxModel)
+else:
+    exit()
         
