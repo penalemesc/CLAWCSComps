@@ -2,3 +2,8 @@ venv/
 .venv/
 SAM3Work/Code/sam3.pt
 SAM3Work/Code/lambo.jpg
+yolo26n.pt
+yolo26n-seg.pt
+SharedGT/yolo/labels/
+SharedGT/yolo/images
+runs/
