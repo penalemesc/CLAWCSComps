@@ -6,6 +6,9 @@ def segment_vehicles(image, max_width=1000):
     """Classical rear-vehicle segmentation: red-light pairs seed GrabCut.
 
     Returns uint8 mask: 255 vehicle, 0 background.
+
+    Run program with input images as parameters such as:
+    ❯ python main.py car.jpg dashcam.jpg
     """
     H, W = image.shape[:2]
     scale = min(1.0, max_width / W)
