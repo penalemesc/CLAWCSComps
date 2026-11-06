@@ -4,7 +4,7 @@ import os
 from ultralytics import YOLO
 
 # Define the input path
-inputPath = "SharedGT/yolo/images/val/"
+inputPath = "YOLOWork/Code/Tests/FileTesting/"
 # We probably want this to be the actual validating files, however because I (CPL) have not finished training at this point (its going to take 45 hours on my personal computer), I just put my own files for now
 
 # Define the input files 
@@ -15,8 +15,9 @@ outputPath = "YOLOWork/Code/yoloPredictions/filePredictions/"
 
 # This is here for testing
 # Define the YOLO model to be used
-boxModel = YOLO("YOLOWork/Code/Tests/TrainingTests/carYOLO26v2/weights/boundingCarYOLO.pt") 
+boxModel = YOLO("YOLOWork/Code/Tests/TrainingTests/boundingCarYOLO26/weights/boundingCarYOLO.pt") 
 
+baseModel = YOLO("yolo26m.pt")
 # Infers on files and displays the result of the inference to the user. 
 # It is meant as a simple fast test
 # Input is a set of files, the path where those files are and the model that is used for predicting
@@ -91,7 +92,7 @@ def saveFromFile(inFiles, inPath, outPath, model):
     outVid.release()
 
 
-predictFiles(files, inputPath, boxModel)
-saveFromFile(files, inputPath, outputPath, boxModel)
+#predictFiles(files, inputPath, boxModel)
+saveFromFile(files, inputPath, outputPath, baseModel)
 
 cv2.destroyAllWindows()

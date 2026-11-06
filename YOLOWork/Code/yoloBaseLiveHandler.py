@@ -18,6 +18,8 @@ cam = cv2.VideoCapture(1)
 # Define yolo model so that we can use it in predictions
 boxModel = YOLO("YOLOWork/Code/Tests/TrainingTests/boundingCarYOLO26/weights/boundingCarYOLO.pt")
 
+baseModel = YOLO("yolo26m.pt")
+
 # Define the real-time prediction function
 def realTimeFeed(camera, model):
     # While we do not quit the program, keep reading and showing the screen
@@ -45,13 +47,7 @@ def realTimeFeed(camera, model):
             cv2.destroyWindow("Preview")
             camera.release()
             break
-<<<<<<< HEAD
-
-    
-=======
         
->>>>>>> ea0b2b75d4b55277d4f5c7905ffc2195b6d58b2f
-
 # Infer in real time and save the inferences as an mp4 video for qualitative analysis
 # Input is the camera that we are using and the model that we want to use
 def realTimeSave(camera, outPath, model):
@@ -91,9 +87,6 @@ def realTimeSave(camera, outPath, model):
             outVid.release()
             break
 
-realTimeFeed(cam, boxModel)
-cv2.destroyAllWindows()
-cam.release()
 realTimeSave(cam, outputPath, boxModel)
 
 # Allow the camera to be used by other programs and destroy all preview windows
