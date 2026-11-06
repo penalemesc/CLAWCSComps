@@ -6,8 +6,6 @@ import cv2
 import os
 from ultralytics import YOLO
 
-# Define the input path
-inputPath = "weDoNotHaveFilesYet"
 
 # Define the output path
 output = "YOLOWork/Code/videoRecordings"
@@ -56,8 +54,7 @@ def realTime(cam, model):
         # If we pressed q, quit
         if keyPressed == ord('q'):
             break
-        # IMPLEMENT SAVING VIDEOS AT SOME POINT
-        # elif keyPressed == ord('s'):
+
     
 
 def predictFiles(files, path, model):
