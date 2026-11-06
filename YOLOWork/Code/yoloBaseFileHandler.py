@@ -4,7 +4,7 @@ import os
 from ultralytics import YOLO
 
 # Define the input path
-inputPath = "YOLOWork/Code/Tests/FileTesting/"
+inputPath = "SharedGT/yolo/images/val/"
 # We probably want this to be the actual validating files, however because I (CPL) have not finished training at this point (its going to take 45 hours on my personal computer), I just put my own files for now
 
 # Define the input files 
@@ -15,7 +15,7 @@ outputPath = "YOLOWork/Code/yoloPredictions/filePredictions/"
 
 # This is here for testing
 # Define the YOLO model to be used
-model = YOLO("yolo26m.pt")
+boxModel = YOLO("YOLOWork/Code/Tests/TrainingTests/carYOLO26v2/weights/boundingCarYOLO.pt") 
 
 # Infers on files and displays the result of the inference to the user. 
 # It is meant as a simple fast test
@@ -30,10 +30,8 @@ def predictFiles(inFiles, inPath, model):
         elif file.find(".mp4") != -1 or file.find(".avi") != -1:
             isImage = False
         else: 
-            print("File" + file + "not accepted, please remove it from the source folder and run this program again")
+            print("File \"" + file + "\"not accepted, please remove it from the source folder and run this program again")
             exit()
-        """ elif  != -1:
-            isImage = True """
         print(isImage)
         if isImage == True:
             prediction = model((inPath + file), imgsz = 640, verbose = False)
@@ -68,20 +66,19 @@ def saveFromFile(inFiles, inPath, outPath, model):
         elif file.find(".avi") != -1:
             fourCC = cv2.VideoWriter_fourcc(*'XVID')
         else: 
-            print("File" + file + "not accepted, please remove it from the source folder, and run this program again")
+            print("File \"" + file + "\" not accepted, please remove it from the source folder, and run this program again")
             exit()
 
         if isImage == True:
             prediction = model((inPath + file), imgsz = 640, verbose = False)
             predictedFile = prediction[0].plot()
             cv2.imwrite((outPath + file), predictedFile)
-
         else: 
             cam = cv2.VideoCapture(inPath + file)
             w = int(cam.get(cv2.CAP_PROP_FRAME_WIDTH))
             h = int(cam.get(cv2.CAP_PROP_FRAME_HEIGHT))
             fps = int(cam.get(cv2.CAP_PROP_FPS))
-            outVid = cv2.VideoWriter((outputPath + file), fourCC, fps, (w,h))
+            outVid = cv2.VideoWriter((outPath + file), fourCC, fps, (w,h))
             while True:
                 ret, videoStream = cam.read()
                 if ret == False:
@@ -93,6 +90,8 @@ def saveFromFile(inFiles, inPath, outPath, model):
     cam.release()
     outVid.release()
 
-predictFiles(files, inputPath, model)
+
+predictFiles(files, inputPath, boxModel)
+saveFromFile(files, inputPath, outputPath, boxModel)
 
 cv2.destroyAllWindows()
