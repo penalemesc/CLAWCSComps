@@ -30,7 +30,6 @@ WORKSPACE = os.path.dirname(REPO)
 FROZEN = ("backbone.vision_backbone.trunk.", "backbone.language_backbone.encoder.")
 TRUNK_DEPTH = 32
 
-
 def parse_args():
     p = argparse.ArgumentParser()
     p.add_argument("--out", required=True)
@@ -240,7 +239,6 @@ def lr_factor(step, total, warmup, min_ratio):
         return (step + 1) / warmup
     progress = min(1.0, (step - warmup) / max(1, total - warmup))
     return min_ratio + (1 - min_ratio) * 0.5 * (1 + math.cos(math.pi * progress))
-
 
 def build_loss(with_masks, mask_points):
     from sam3.train.loss.loss_fns import Boxes, IABCEMdetr, Masks
