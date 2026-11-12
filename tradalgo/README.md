@@ -43,6 +43,7 @@ To save masks in the `output/` directory instead, change the output path in `mai
 |---|---|
 | ![Car input](input/car.jpg) | ![Car mask](output/car_mask.png) |
 | ![Dashcam input](input/dashcam.jpg) | ![Dashcam mask](output/dashcam_mask.png) |
+| ![CVS Dashcam input](input/CVS.jpg) | ![CVS mask](output/CVS_mask.png) |
 
 ### Additional Experiments
 
@@ -66,9 +67,11 @@ The repository also contains exploratory implementations of other traditional co
 ├── superpixel.py           # Superpixel experiment
 ├── input/
 │   ├── car.jpg
+│   ├── CVS.jpg
 │   └── dashcam.jpg
 └── output/
     ├── car_mask.png
+    ├── CVS_mask.png
     ├── dashcam_mask.png
     ├── color_threshold_comparison.png
     └── edgeoutput.png
