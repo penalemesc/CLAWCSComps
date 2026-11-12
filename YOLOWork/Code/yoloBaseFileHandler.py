@@ -24,7 +24,7 @@ baseModel = YOLO("yolo26m.pt")
 # It is meant as a simple fast test
 # Input is a set of files, the path where those files are and the model that is used for predicting
 def predictFiles(inFiles, inPath, model):
-    # Whilst we still have files that weh have not predicted on
+    # Whilst we still have files that we have not predicted on, keep reading
     for file in inFiles:
         print(file)
         isImage = False
