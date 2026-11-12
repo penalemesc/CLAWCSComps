@@ -15,7 +15,7 @@ outputPath = "YOLOWork/Code/videoRecordings/"
 model = YOLO("yolo26n.pt")
 
 prediction = model.predict(1, verbose = False, stream = True, save=True)
-
+# this is all from yolo
 for result in prediction:
     boxes = result.boxes  # Boxes object for bounding box outputs
     masks = result.masks  # Masks object for segmentation masks outputs

@@ -46,7 +46,6 @@ def realTimeFeed(camera, model):
             camera.release()
             break
         
-
 # Infer in real time and save the inferences as an mp4 video for qualitative analysis
 # Input is the camera that we are using and the model that we want to use
 def realTimeSave(camera, outPath, model):
