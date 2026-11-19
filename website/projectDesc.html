@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en-US">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>CLAWtonomous Decisions Comps Website</title>
+      <link rel="stylesheet" href="css/components.css">
+      <link rel="stylesheet" href="css/icons.css">
+      <link rel="stylesheet" href="css/responsee.css">
+      <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
+      <link rel="stylesheet" href="owl-carousel/owl.theme.css"> 
+      <!-- CUSTOM STYLE -->
+      <link rel="stylesheet" href="css/template-style.css"> 
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+      <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+      <script type="text/javascript" src="js/jquery-ui.min.js"></script>    
+   </head>
+   <body class="size-1140">
+      <!-- TOP NAV WITH LOGO -->  
+      <header>
+         <nav>
+            <div class="line">
+               <!-- Mobile version of logo -->
+               <div class="logo logo-small">
+                 <a href="index.html"><strong>CLAWtono- mous Decisions</strong></a>
+               </div>  
+               
+               <div class="top-nav">              
+
+                     <ul class="s-12 l-5 top-ul chevron">
+                        <div class="right">
+                            <li><a href="index.html">Home</a>
+                            </li>
+                            <li><a href="projectDesc.html">Project Description</a>
+                            </li>
+                            <li><a href="sam3.html">SAM3</a>
+                            </li>
+                            
+                        </div>
+                     </ul>
+
+                     <ul class="s-12 l-2">
+                        <li class="logo hide-s hide-m">
+                           <a href="index.html"><strong>CLAWtono- mous Decisions</strong></a>
+                        </li>
+                     </ul>
+
+                     <ul class="s-12 l-5 right top-ul chevron">
+                        <li><a href="yolo26.html">YOLO26</a>
+                        </li>
+                        <li><a href="thirdModel.html">Third Model</a></li>
+                        <li><a href="posters.html">Posters</a>
+                        </li>
+                        <!-- <li>
+                           <a>Company</a>			    
+                           <ul>
+                              <li><a>Company 1</a>
+                              </li>
+                              <li><a>Company 2</a>
+                              </li>
+                              <li>
+                                 <a>Company 3</a>				  
+                                 <ul>
+                                    <li><a>Company 3-1</a>
+                                    </li>
+                                    <li><a>Company 3-2</a>
+                                    </li>
+                                    <li><a>Company 3-3</a>
+                                    </li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </li> -->
+                        <li><a href="results.html">Results</a></li>
+                     </ul> 
+
+               </div>
+            </div>
+         </nav>
+      </header>
+      <section>
+         <div id="head">
+            <div class="line">
+               <h1>Project Description</h1>
+            </div>
+             <p class="s-12 m-12 l-8 center" style="color: white;">In this section we present our project proposal, including information on our dataset. We then explain why we did the choises that we made in developing our project, such as how SAM3 and YOLO26 were trained. We finish the secion by poiting readers to explore some of the other sections that we have in the website or by reading our paper!
+               </p>
+         </div>
+         <div id="content">
+            
+            <div class="line">
+              
+               <h1 style="color: black;">Project Proposal</h1>
+               <p >Our original topic consisted of developing an object detection algorithm with the intended application being using it on an aerial vehicle (a drone). However, in our preliminary research, a set of restrictions arose in the form of College policies that would have prevented being able to test this model. Thus we decided to pivot sideways and instead of using aerial footage, we focused on terrestrial footage of streets. 
+               <br>
+               With that idea present, our finalized topic at the time of the proposal was to compare the models of SAM3 and YOLO26 for their use in the field of autonomous vehicles. Particularly with a focus of using them for inferring in real time.
+               </p>
+               <h1 style="color: black;">Dataset</h1>
+               <p class="s-12 m-12 l-8 center">
+               We used the <a target="_blank" rel="noopener noreferrer" href="http://bdd-data.berkeley.edu/">BDD100k</a> dataset for our project. It was chosen over other datasets because it has <abbr title="human annotated data in the form of a max or a bounding box for the purposes of our project">ground truth values</abbr> for both instance segmentation models (SAM3) and for bounding box models (YOLO26). Ground truth meansThis dataset includes a lot of videos and image frames from dash cam footage from around the US. <br>
+               We in particular used the BDD10k image dataset, this was chosen over the other versions of the dataset because it has only image data, and one of our models (SAM3), is not super efficient at handling them. The 10000 images were divided into two, a train/fine-tuning folder with about 8000 images and a validating folder with the other 2000. In particular we focused on `car` data over other options to limit the scope of our project to have a single <abbr title="the types of data that our models can detect on">class</abbr> that we can more easily quantify on, rather than have multiple options that might reduce accurary in our already limited training dataset.
+               </p>
+
+            </div>
+         </div>
+         <!-- GALLERY -->	
+         <div id="second-block">
+            <div class="line">
+               <div class="margin">
+               <h1><strong>Design Choices</strong> </h1>
+               <p class="s-12 m-12 l-8 center"> This section details how we fine-tuned our two pre-trained models and how we developed our third model.</p>
+               <br>
+               
+                  <div class="s-12 m-6 ">
+                     <h1>YOLO26</h1>   
+                     <p class="subtitile"> We used the ultralytics library to implement YOLO26, and because of that we also used their training function. We fine-tuned YOLO26 on 100 epochs with the full fine-tuning subset as its batch size. Images were resized to 640x640px thorugh training, this was chosen over 480x480px (used in the original YOLO) because 640x640px is the size used in inference in the current version of YOLO26. <br>What all of these numbers and definitions mean is that YOLO26 read each of the 8000 images 100 times when training, leading to it gaining a better understanding of the car class, than it had before. Overall training took 4.9 hours using the Carleton College CS department research computers.
+                     </p>
+                  </div>
+                  <div class="s-12 m-6 ">
+                     <h1>SAm3</h1>          <!-- TO DO: Have someone check this over and add the original paper used. -->
+                     <p class="subtitile">We used the code presented in the <a style="color:dodgerblue;" target="_blank" rel="noopener noreferrer" href="">original SAM3 paper</a> to fine-tune SAM3. Our original idea was to use the same amount of epochs and batch size as YOLO26 (100 epochs and full batch size). However due to the computational complexity of SAM3, we were only able to fine-tune the model on 5 epochs running on the full batch size. This was because after about 9 hours of fine-tuning on all epochs at around epoch 6, the computer would run out of RAM and shut down. <br>Thus, 5 epochs was decided as a point where we could actually finish running it and thus being the amount we used. Even through this (comparatively) lower amount of runs through the data, we still saw an increase of accuracy when compared to YOLO26 
+                     </p>
+                  </div>
+                  <div class="s-12 m-6 center">
+                     <h1>Third Model</h1>           <!-- TO DO: Have Luke talk about his model -->
+                     <p class="subtitile">Lorem ipsum dolor sit amet, consectetuer adipiscing ÿ itᆔ
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+         
+      </section>
+      <!-- FOOTER -->   
+      <footer>
+         <div class="line">
+            <div class="s-12 l-6">
+               <p>Copyright 2019, Vision Design - graphic zoo
+               </p>
+            </div>
+            <div class="s-12 l-6">
+               <p class="right">
+                  <a class="right" href="http://www.myresponsee.com" title="Responsee - lightweight responsive framework">Original Design and Code by Responsee Team, Edited by CPL</a>
+               </p>
+            </div>
+         </div>
+      </footer>
+      <script type="text/javascript" src="js/responsee.js"></script> 
+      <script type="text/javascript" src="owl-carousel/owl.carousel.js"></script>   
+      <script type="text/javascript">
+         jQuery(document).ready(function($) {  
+           var owl = $('#news-carousel');
+           owl.owlCarousel({
+              nav: true,
+              dots: false,
+              items: 1,
+              loop: true,
+              navText: ["&#xf007","&#xf006"],
+              autoplay: true,
+              autoplayTimeout: 4000
+           });
+         });	
+          
+      </script>  
+   </body>
+</html>

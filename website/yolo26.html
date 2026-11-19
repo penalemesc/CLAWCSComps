@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en-US">
+      <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>CLAWtonomous Decisions Comps Website</title>
+      <link rel="stylesheet" href="css/components.css">
+      <link rel="stylesheet" href="css/icons.css">
+      <link rel="stylesheet" href="css/responsee.css">
+      <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
+      <link rel="stylesheet" href="owl-carousel/owl.theme.css"> 
+      <!-- CUSTOM STYLE -->
+      <link rel="stylesheet" href="css/template-style.css"> 
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+      <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+      <script type="text/javascript" src="js/jquery-ui.min.js"></script>    
+   </head>
+   <body class="size-1140">
+      <!-- TOP NAV WITH LOGO -->  
+      <header>
+         <nav>
+            <div class="line">
+               <!-- Mobile version of logo -->
+               <div class="logo logo-small">
+                 <a href="index.html"><strong>CLAWtono- mous Decisions</strong></a>
+               </div>  
+               
+               <div class="top-nav">              
+
+                      <ul class="s-12 l-5 top-ul chevron">
+                        <div class="right">
+                            <li><a href="index.html">Home</a>
+                            </li>
+                            <li><a href="projectDesc.html">Project Description</a>
+                            </li>
+                            <li><a href="sam3.html">SAM3</a>
+                            </li>
+                            
+                        </div>
+                     </ul>
+
+                     <ul class="s-12 l-2">
+                        <li class="logo hide-s hide-m">
+                           <a href="index.html"><strong>CLAWtono- mous Decisions</strong></a>
+                        </li>
+                     </ul>
+
+                     <ul class="s-12 l-5 right top-ul chevron">
+                        <li><a href="yolo26.html">YOLO26</a>
+                        </li>
+                        <li><a href="thirdModel.html">Third Model</a></li>
+                        <li><a href="posters.html">Posters</a>
+                        </li>
+                        <!-- <li>
+                           <a>Company</a>			    
+                           <ul>
+                              <li><a>Company 1</a>
+                              </li>
+                              <li><a>Company 2</a>
+                              </li>
+                              <li>
+                                 <a>Company 3</a>				  
+                                 <ul>
+                                    <li><a>Company 3-1</a>
+                                    </li>
+                                    <li><a>Company 3-2</a>
+                                    </li>
+                                    <li><a>Company 3-3</a>
+                                    </li>
+                                 </ul>
+                              </li>
+                           </ul>
+                        </li> -->
+                        <li><a href="results.html">Results</a></li>
+                     </ul> 
+
+               </div>
+            </div>
+         </nav>
+      </header>
+      <section>
+         <div id="head">
+            <div class="line">
+               <h1><strong>YOLO26</strong></h1>
+            </div>
+         </div>
+         <div id="content">
+            <div class="line">
+               <h2>Description</h2>
+               Created by Joseph Redmon in 2016, the original version of YOLO26 was designed to be a fast, and computationally efficient object detection model. Something that at the time had not been seen. Since its development, multiple teams have worked on improving the original concept by Redmon, until we got to the latest version designed by the <a target="_blank" rel="noopener noreferrer" href="https://docs.ultralytics.com/models/yolo26">Ultralytics team</a>, in the form of YOL26. <br>For our project we used one Ultralytics´s pre-trained YOLO26 models to fine-tune our own version of it, which used our dataset to train it. Resulting in our qualitative examination having both Ultralytics´s model (base YOLO26), and our own "carYOLO26" model (also known as fine-tuned YOLO26). In this page we explain the overarching architecture of YOLO26, which is divided into 3 sections of backbone, neck and head, and provide some examples of how we used YOLO26 to analyse our data. 
+
+               <br>
+            </br>
+               <div class="margin">
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <h3>Backbone</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                        </p>
+                     </div>
+                  </div>
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <h3>Neck</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                        </p>
+                     </div>
+                  </div>
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <h3>Head(s)</h3>
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
+                        </p>
+                     </div>
+                  </div>
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <h3>File Inference Example</h3>
+                        <video width="275" height="150"
+                            aria-label="2 YOLO26 models infering on a file that was passed in" controls
+                             muted class="center">
+                            <source src="img/filePredictionsSmall.mp4" type="video/mp4">
+                            Your browser does not support the video tag
+                        </video>
+                        <p>A comparison between our two YOLO26 models, when running them from the same pre-recorded video.</p>
+                     </div>
+                  </div>
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <h3>Real Time Comparison Example</h3>
+                        <video width="275" height="150"
+                            aria-label="4 videos with 2 large ones showing the model inference on the 2 smaller videos" controls
+                             muted class="center">
+                            <source src="img/obsSmallStorage.mp4" type="video/mp4">
+                            Your browser does not support the video tag
+                        </video>
+                        <p>A comparison that shows both models and inferring on live data, and how well their speed compares to said live data.</p>
+                     </div>
+                  </div>
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        
+                        <h3>In-Code Inference Saving Example</h3>
+                        <video width="275" height="150"
+                            aria-label="2 YOLO26 models infering on live data." controls
+                             muted class="center">
+                            <source src="img/inCodeComparisonSmall.mp4" type="video/mp4">
+                            Your browser does not support the video tag
+                        </video>
+                        <p>A comparison of how well both versions of our YOLO26 models work, on similar live data.</p>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+ 
+      <footer>
+        <div class="line">
+            <div class="s-12 l-6">
+               <p>Copyright 2019, Vision Design - graphic zoo
+               </p>
+            </div>
+            <div class="s-12 l-6">
+               <p class="right">
+                  <a class="right" href="http://www.myresponsee.com" title="Responsee - lightweight responsive framework">Original Design and Code by Responsee Team, Edited by CPL</a>
+               </p>
+            </div>
+         </div>
+      </footer>
+      <script type="text/javascript" src="js/responsee.js"></script> 
+      <script type="text/javascript" src="owl-carousel/owl.carousel.js"></script>   
+      <script type="text/javascript">
+         jQuery(document).ready(function($) {  
+           var owl = $('#news-carousel');
+           owl.owlCarousel({
+              nav: true,
+              dots: false,
+              items: 1,
+              loop: true,
+              navText: ["&#xf007","&#xf006"],
+              autoplay: true,
+              autoplayTimeout: 4000
+           });
+         });	
+          
+      </script>  
+   </body>
+</html>
