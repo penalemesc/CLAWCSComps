@@ -87,6 +87,9 @@ def realTimeSave(camera, outPath, model):
             outVid.release()
             break
 
+realTimeFeed(cam, boxModel)
+cv2.destroyAllWindows()
+cam.release()
 realTimeSave(cam, outputPath, boxModel)
 
 # Allow the camera to be used by other programs and destroy all preview windows

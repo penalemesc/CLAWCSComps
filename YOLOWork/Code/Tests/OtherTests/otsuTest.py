@@ -1,6 +1,6 @@
 # This code is a test to see how well a theoretical third "traditional" algorithm 
 # could work in real-time image processing.
-    # It was done to see the feasability of adding a third algorithm to our project 
+# It was done to see the feasability of adding a third algorithm to our project 
 # All code is based on CPL's Otsu's threshold assigment or in the "yoloBase.py" file
 # which was all created by CPL (based on whatever sources he used)
 

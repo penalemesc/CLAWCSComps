@@ -1,4 +1,4 @@
-# SharedGT
+# SharedGT Labels
 
 Shared labels and splits for all four runs: YOLO and SAM 3, zero-shot and fine-tuned.
 

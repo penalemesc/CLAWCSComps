@@ -8,7 +8,7 @@ import os
 from ultralytics import YOLO
 from yoloBaseLiveHandler import realTimeFeed, realTimeSave
 from yoloBaseFileHandler import predictFiles, saveFromFile
-from consoleHelper import printBase, printMenu
+from YOLOWork.Code.Tests.FunTests.consoleHelper import printBase, printMenu
 
 # Define the model that we will use for our bounding box tests
 boxModel = YOLO("YOLOWork/Code/Tests/TrainingTests/carYOLO26v2/weights/boundingCarYOLO.pt")

@@ -4,7 +4,8 @@ import os
 from ultralytics import YOLO
 
 # Define the input path
-inputPath = "YOLOWork/Code/Tests/FileTesting/"
+#inputPath = "SharedGT/yolo/images/val/"
+inputPath = "YOLOWork/Code/Tests/fileInput/"
 # We probably want this to be the actual validating files, however because I (CPL) have not finished training at this point (its going to take 45 hours on my personal computer), I just put my own files for now
 
 # Define the input files 
@@ -15,18 +16,20 @@ outputPath = "YOLOWork/Code/yoloPredictions/filePredictions/"
 
 # This is here for testing
 # Define the YOLO model to be used
-boxModel = YOLO("YOLOWork/Code/Tests/TrainingTests/boundingCarYOLO26/weights/boundingCarYOLO.pt") 
+boxModel = YOLO("YOLOWork/Code/Tests/TrainingTests/boundingCarYOLO26/weights/boundingCarYOLO.pt")
+
+baseModel = YOLO("yolo26m.pt")
 
 baseModel = YOLO("yolo26m.pt")
 # Infers on files and displays the result of the inference to the user. 
 # It is meant as a simple fast test
 # Input is a set of files, the path where those files are and the model that is used for predicting
 def predictFiles(inFiles, inPath, model):
-    # Whilst we still have files that weh have not predicted on
+    # Whilst we still have files that we have not predicted on, keep reading
     for file in inFiles:
         print(file)
         isImage = False
-        if file.find(".jpg") != -1 or file.find(".png") != -1:
+        if file.find(".jpg") != -1 or file.find(".png") != -1 or file.find(".jpeg") != 1:
             isImage = True
         elif file.find(".mp4") != -1 or file.find(".avi") != -1:
             isImage = False
@@ -60,7 +63,7 @@ def predictFiles(inFiles, inPath, model):
 def saveFromFile(inFiles, inPath, outPath, model):
     for file in inFiles:
         isImage = False
-        if file.find(".jpg") != -1 or file.find(".png") != -1:
+        if file.find(".jpg") != -1 or file.find(".png") != -1 or file.find(".jpeg") != 1: 
             isImage = True
         elif file.find(".mp4") != -1:
             fourCC = cv2.VideoWriter_fourcc(*'mp4v')
@@ -73,7 +76,7 @@ def saveFromFile(inFiles, inPath, outPath, model):
         if isImage == True:
             prediction = model((inPath + file), imgsz = 640, verbose = False)
             predictedFile = prediction[0].plot()
-            cv2.imwrite((outPath + file), predictedFile)
+            cv2.imwrite((outPath + 'car'+ file), predictedFile)
         else: 
             cam = cv2.VideoCapture(inPath + file)
             w = int(cam.get(cv2.CAP_PROP_FRAME_WIDTH))
@@ -87,12 +90,11 @@ def saveFromFile(inFiles, inPath, outPath, model):
                 predictions = model(videoStream, imgsz = 640, verbose = False)
                 predictedStream = predictions[0].plot()
                 outVid.write(predictedStream)
+            cam.release()
+            outVid.release()
 
-    cam.release()
-    outVid.release()
 
-
-#predictFiles(files, inputPath, boxModel)
-saveFromFile(files, inputPath, outputPath, baseModel)
+#predictFiles(files, inputPath, baseModel)
+saveFromFile(files, inputPath, outputPath, boxModel)
 
 cv2.destroyAllWindows()
