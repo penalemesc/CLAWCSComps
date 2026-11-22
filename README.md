@@ -107,4 +107,4 @@ CLAWCSComps/
   - [`website/index.html`](website/index.html): Abstract and project overview
   - [`website/projectDesc.html`](website/projectDesc.html): Project motivation and dataset details
   - [`website/yolo26.html`](website/yolo26.html) & [`website/sam3.html`](website/sam3.html): Model-specific breakdowns
-  - [`website/thirdModel.html`](website/thirdModel.html): Tradition
+  - [`website/opencv.html`](website/opencv.html): Tradition

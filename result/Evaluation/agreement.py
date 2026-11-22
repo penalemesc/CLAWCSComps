@@ -61,7 +61,7 @@ def main():
     parser.add_argument("--metrics", default=os.path.join(common.OUTPUT_DIR, "metrics_val_ft.json"))
     parser.add_argument("--a", default="yolo26m_ft")
     parser.add_argument("--b", default="sam3")
-    parser.add_argument("--ref", default="yolo26m", help="third model, for a reference correlation")
+    parser.add_argument("--ref", default="yolo26m", help="OpenCV Model, for a reference correlation")
     parser.add_argument("--hard", type=float, default=0.10, help="share of images counted as hardest")
     parser.add_argument("--out", default=os.path.join(common.OUTPUT_DIR, "agreement_val.json"))
     args = parser.parse_args()

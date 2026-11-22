@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="en-US">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>CLAWtonomous Decisions Comps Website</title>
+      <link rel="stylesheet" href="css/components.css">
+      <link rel="stylesheet" href="css/icons.css">
+      <link rel="stylesheet" href="css/responsee.css">
+      <link rel="stylesheet" href="owl-carousel/owl.carousel.css">
+      <link rel="stylesheet" href="owl-carousel/owl.theme.css"> 
+      <!-- CUSTOM STYLE -->
+      <link rel="stylesheet" href="css/template-style.css"> 
+      <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+      <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+      <script type="text/javascript" src="js/jquery-ui.min.js"></script>
+      <!-- MathJax for rendering mathematical formulations -->
+      <script>
+         MathJax = {
+            tex: {
+               inlineMath: [['$', '$'], ['\\(', '\\)']],
+               displayMath: [['$$', '$$'], ['\\[', '\\]']]
+            }
+         };
+      </script>
+      <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <style>
+         .math-display {
+            background: #f8f9fa;
+            border-left: 4px solid #00464f;
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            font-size: 1.15rem;
+            text-align: center;
+            overflow-x: auto;
+         }
+         .figure-card {
+            background: #fcfcfc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0 2rem;
+            text-align: center;
+         }
+         .figure-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: inline-block;
+         }
+         .figure-caption {
+            margin-top: 0.75rem;
+            font-size: 0.95rem;
+            color: #555;
+            font-style: italic;
+         }
+         .text-content {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: #333;
+            text-align: left;
+         }
+         .section-title {
+            color: #001e22;
+            font-size: 1.85rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #2fcbe0;
+            text-align: left;
+         }
+         .gallery-pair {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+            margin-bottom: 2rem;
+         }
+         .gallery-item {
+            flex: 1 1 300px;
+            max-width: 450px;
+            background: #f7f9fa;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #e1e8ed;
+            text-align: center;
+         }
+         .gallery-item img {
+            width: 100%;
+            height: 240px;
+            object-fit: contain;
+            background: #000;
+            border-radius: 4px;
+         }
+         .badge {
+            display: inline-block;
+            background: #00464f;
+            color: #fff;
+            padding: 0.2rem 0.6rem;
+            font-size: 0.85rem;
+            border-radius: 3px;
+            margin-bottom: 0.5rem;
+         }
+      </style>
+   </head>
+   <body class="size-1140">
+      <!-- TOP NAV WITH LOGO -->  
+      <header>
+         <nav>
+            <div class="line">
+               <!-- Mobile version of logo -->
+               <div class="logo logo-small">
+                 <a href="index.html"><strong>CLAWtono- mous Decisions</strong></a>
+               </div>  
+               
+               <div class="top-nav">              
+                  <ul class="s-12 l-5 top-ul chevron">
+                     <div class="right">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="projectDesc.html">Project Description</a></li>
+                        <li><a href="sam3.html">SAM3</a></li>
+                     </div>
+                  </ul>
+
+                  <ul class="s-12 l-2">
+                     <li class="logo hide-s hide-m">
+                        <a href="index.html"><strong>CLAWtono- mous Decisions</strong></a>
+                     </li>
+                  </ul>
+
+                  <ul class="s-12 l-5 right top-ul chevron">
+                     <li><a href="yolo26.html">YOLO26</a></li>
+                     <li class="active-item"><a href="opencv.html">OpenCV Model</a></li>
+                     <li><a href="posters.html">Posters</a></li>
+                     <li><a href="results.html">Results</a></li>
+                  </ul> 
+               </div>
+            </div>
+         </nav>
+      </header>
+
+      <section>
+         <!-- HEADER BLOCK -->
+         <div id="head">
+            <div class="line">
+               <h1><strong>Python OpenCV Algorithm</strong></h1>
+               <p class="s-12 m-12 l-8 center" style="color: white; font-size: 1.15rem; line-height: 1.6; margin-top: 1rem;">
+                  A traditional computer vision approach to vehicle segmentation using HSV color thresholding, geometric taillight detection, and GrabCut graph-cut optimization.
+               </p>
+            </div>
+         </div>
+
+         <!-- OVERVIEW CONTENT BLOCK -->
+         <div id="content" class="left-align">
+            <div class="line">
+               <div class="text-content">
+                  <p>
+                     Before examining the neural network architectures of <strong>YOLO26</strong> and <strong>SAM 3</strong>, we implemented a traditional computer vision algorithm using Python and OpenCV. Rather than learning features from training data, this algorithm uses explicitly defined rules to locate vehicles and a graph-based optimization algorithm called <strong>GrabCut</strong> to segment them.
+                  </p>
+                  <p>
+                     Our implementation consists of two main stages:
+                  </p>
+                  <ol style="margin-left: 2rem; margin-bottom: 1.5rem; list-style-type: decimal;">
+                     <li style="margin-bottom: 0.5rem;">
+                        <strong>Detection (Color Thresholding):</strong> Identifies pairs of vehicle taillights using HSV color constraints and vehicle symmetry, providing an approximate Region of Interest (ROI) and vehicle location.
+                     </li>
+                     <li>
+                        <strong>Segmentation (GrabCut):</strong> Leverages color relationships and pixel affinities between neighboring pixels to determine which pixels belong to the vehicle versus the surrounding background.
+                     </li>
+                  </ol>
+               </div>
+
+               <!-- HIGHLIGHT BOXES -->
+               <div class="margin" style="margin-top: 2rem; margin-bottom: 2rem;">
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <i class="icon-paperplane_ico icon2x" style="color: #2fcbe0;"></i>
+                        <h3>Rule-Based Baseline</h3>
+                        <p>Requires zero training data, pre-trained weights, or GPU acceleration. It operates purely on deterministic color and geometric heuristics.</p>
+                     </div>
+                  </div>
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <i class="icon-eye icon2x" style="color: #2fcbe0;"></i>
+                        <h3>HSV Taillight Detection</h3>
+                        <p>Isolates red pixels across dual hue wrap-around ranges (0–12 and 168–179) while filtering out ambient road luminance.</p>
+                     </div>
+                  </div>
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <i class="icon-puzzle_ico icon2x" style="color: #2fcbe0;"></i>
+                        <h3>GrabCut Graph Cuts</h3>
+                        <p>Optimizes boundary energy by finding the minimum cut in a pixel neighborhood graph, balancing color affinity and region models.</p>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- GALLERY OF EXAMPLES -->	
+               <div id="third-block">
+                  <div class="line">
+                     <h2>Segmentation Results</h2>
+                     <p class="subtitile">Sample vehicle segmentation masks generated by the Python OpenCV algorithm on terrestrial images.</p>
+                     
+                     <div class="gallery-pair">
+                        <div class="gallery-item">
+                           <span class="badge">Input Image</span>
+                           <img src="img/car.jpg" alt="Car Input Photo">
+                           <p style="margin-top: 0.5rem; color: #444;">Rear perspective vehicle on pavement</p>
+                        </div>
+                        <div class="gallery-item">
+                           <span class="badge">OpenCV GrabCut Mask</span>
+                           <img src="img/car_mask.png" alt="Car Segmentation Mask">
+                           <p style="margin-top: 0.5rem; color: #444;">Binary segmentation mask output</p>
+                        </div>
+                     </div>
+
+                     <div class="gallery-pair">
+                        <div class="gallery-item">
+                           <span class="badge">Input Image</span>
+                           <img src="img/dashcam.jpg" alt="Dashcam Input Photo">
+                           <p style="margin-top: 0.5rem; color: #444;">Real-world road dashcam footage</p>
+                        </div>
+                        <div class="gallery-item">
+                           <span class="badge">OpenCV GrabCut Mask</span>
+                           <img src="img/dashcam_mask.png" alt="Dashcam Segmentation Mask">
+                           <p style="margin-top: 0.5rem; color: #444;">Extracted vehicle silhouette mask</p>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+
+               <!-- SECTION 1: COLOR THRESHOLDING -->
+               <h2 class="section-title">Color Thresholding and Vehicle Detection</h2>
+               <div class="text-content">
+                  <p>
+                     The first question the algorithm must answer is: <em>what makes a car a car?</em> To avoid getting too philosophical, try going through the dataset images and keeping note of what similarities between the photos help you find the cars.
+                  </p>
+                  <p>
+                     Features that stood out the most to us were the symmetry of the back of the car, taillights, and license plates. Various literature strategies examine these visual cues, each with their respective downsides. For the simplicity and reliability of our traditional baseline, our algorithm detects taillights using color thresholding.
+                  </p>
+               </div>
+
+               <div class="figure-card">
+                  <img src="img/ColorthresholdDiagram.png" alt="Color Thresholding Diagram" style="max-height: 380px;">
+                  <div class="figure-caption">
+                     <strong>Figure 1:</strong> HSV color thresholding diagram illustrating the color bounds used to isolate vehicle taillights.
+                  </div>
+               </div>
+
+               <div class="text-content">
+                  <p>
+                     The algorithm begins by converting the image from RGB to <strong>HSV (Hue, Saturation, Value)</strong> color space. Unlike RGB, HSV separates color identity (hue) from brightness (value), allowing the algorithm to isolate red pixels consistently across varying road lighting conditions.
+                  </p>
+                  <p>
+                     Because red wraps around the circular HSV hue scale, the algorithm selects pixels within two distinct hue ranges:
+                  </p>
+                  <div class="math-display">
+                     $$\text{Hue Range 1: } [0, 12] \quad \cup \quad \text{Hue Range 2: } [168, 179]$$
+                  </div>
+                  <p>
+                     Pixels falling within either range must also satisfy minimum saturation and brightness thresholds. This produces a binary mask of red objects, isolating candidate taillight regions and defining the approximate bounding box around the vehicle.
+                  </p>
+               </div>
+
+               <div class="figure-card">
+                  <img src="img/badcropbroweregonnastarve.png" alt="Taillight color thresholding and proposal output" style="max-height: 480px;">
+                  <div class="figure-caption">
+                     <strong>Figure 2:</strong> Taillight detection via HSV color thresholding and resulting vehicle region proposal.
+                  </div>
+               </div>
+
+               <!-- SECTION 2: GRABCUT SEGMENTATION -->
+               <h2 class="section-title">Image Segmentation with GrabCut</h2>
+               <div class="text-content">
+                  <p>
+                     Once the candidate region of interest (ROI) is identified, <strong>GrabCut</strong> models segmentation as a graph partitioning problem: pixels are nodes in a graph, neighboring pixels are connected by weighted edges, and the algorithm finds the <em>minimum cut</em> that best separates foreground from background.
+                  </p>
+                  <p>
+                     The intuition behind this graph is illustrated below. Each white circle represents a sampled pixel or small region, and the black edges represent affinities between neighboring pixels. The red and green dashed curves show possible cuts through the graph. A good cut should pass along boundaries where neighboring pixels are dissimilar—such as the border between the car and the road background—rather than through the interior of the vehicle where pixels tend to be more similar. Thus, the preferred cut is the one with the lowest total edge cost.
+                  </p>
+               </div>
+
+               <div class="figure-card">
+                  <img src="img/mincut.png" alt="Min-Cut Graph Partitioning" style="max-height: 340px;">
+                  <div class="figure-caption">
+                     <strong>Figure 3:</strong> Min-cut graph partitioning intuition. White nodes represent pixels, black edges represent affinities, and dashed curves represent candidate cuts separating foreground ($S$) from background ($T$).
+                  </div>
+               </div>
+
+               <div class="text-content">
+                  <p>
+                     Formally, the cost of a cut partitioning the graph into foreground $S$ and background $T$ is given by:
+                  </p>
+                  <div class="math-display">
+                     $$\text{Cut}(S, T) = \sum_{i \in S, \; j \in T} w(i, j)$$
+                  </div>
+                  <p>
+                     Here, $S$ is the foreground side of the partition and $T$ is the background side. The minimum cut chooses the partition that minimizes the sum of the weights of all severed edges. Intuitively, cutting a weak connection between dissimilar pixels is cheap, while cutting a strong connection between similar pixels is expensive.
+                  </p>
+
+                  <h3 style="color: #001e22; font-size: 1.35rem; margin-top: 1.5rem;">Measuring Color Dissimilarity</h3>
+                  <p>
+                     To assign these edge weights, GrabCut first measures the color difference between neighboring pixels. If $\mathbf{f}_i$ and $\mathbf{f}_j$ are the color vectors of pixels $i$ and $j$, then their dissimilarity is measured using Euclidean distance in color space:
+                  </p>
+                  <div class="math-display">
+                     $$S(\mathbf{f}_i, \mathbf{f}_j) = \sqrt{\sum_k (f_{ik} - f_{jk})^2}$$
+                  </div>
+                  <p>
+                     Two pixels with similar colors have a small Euclidean distance, while pixels with very different appearances produce a large distance.
+                  </p>
+
+                  <h3 style="color: #001e22; font-size: 1.35rem; margin-top: 1.5rem;">Exponential Affinity Weighting</h3>
+                  <p>
+                     This dissimilarity is converted into an edge weight (or affinity) using an exponential decay function:
+                  </p>
+                  <div class="math-display">
+                     $$w(i, j) = A(\mathbf{f}_i, \mathbf{f}_j) = \exp\left( -\frac{\|\mathbf{f}_i - \mathbf{f}_j\|^2}{2\sigma^2} \right)$$
+                  </div>
+                  <p>
+                     The intuition is straightforward: if two neighboring pixels look very similar, then $\|\mathbf{f}_i - \mathbf{f}_j\|^2$ is small, making $w(i, j)$ close to $1$. This creates a strong edge, making it expensive for the cut to split those pixels apart. If the colors are very different, the exponent becomes more negative and $w(i, j)$ becomes small. Such an edge is cheap to cut, making it a natural place for the segmentation boundary to pass.
+                  </p>
+                  <p>
+                     The parameter $\sigma$ calibrates the sensitivity: a larger $\sigma$ makes the graph more tolerant of gradual color variations, while a smaller $\sigma$ makes the graph strict, treating subtle color shifts as sharp object boundaries.
+                  </p>
+
+                  <h3 style="color: #001e22; font-size: 1.35rem; margin-top: 1.5rem;">Terminal Links and Energy Minimization</h3>
+                  <p>
+                     In addition to these neighborhood edges, GrabCut connects every pixel to two special virtual terminal nodes: a <strong>source</strong> node representing the foreground and a <strong>sink</strong> node representing the background. These terminal connections encode how well each pixel matches statistical foreground or background color models (Gaussian Mixture Models).
+                  </p>
+                  <p>
+                     GrabCut learns these models directly from the initialization mask: pixels near the detected taillights and in the center of the proposal ROI are marked as <em>likely foreground</em>, while the borders of the ROI are marked as <em>likely background</em>. OpenCV iteratively updates these color models and optimizes the segmentation by minimizing the overall energy:
+                  </p>
+                  <div class="math-display">
+                     $$E(\alpha) = U(\alpha) + V(\alpha)$$
+                  </div>
+                  <p>
+                     The energy formulation balances two complementary objectives:
+                  </p>
+                  <ul style="margin-left: 2rem; margin-bottom: 1.5rem; list-style-type: disc;">
+                     <li style="margin-bottom: 0.5rem;">
+                        <strong>$U(\alpha)$ (Data Term):</strong> Penalizes assigning a pixel to foreground or background when its color does not match that region's statistical appearance model.
+                     </li>
+                     <li>
+                        <strong>$V(\alpha)$ (Smoothness Term):</strong> Penalizes cuts between neighboring pixels that exhibit high affinity, encouraging smooth, natural contours.
+                     </li>
+                  </ul>
+                  <p>
+                     The result is a clean binary segmentation mask in which the vehicle body is cleanly separated from the surrounding road, sky, and landscape.
+                  </p>
+               </div>
+            </div>
+         </div>
+
+         <!-- TAKEAWAYS CAROUSEL -->
+         <div id="fourth-block">
+            <div class="line">
+               <div id="news-carousel" class="owl-carousel owl-theme">
+                  <div class="item">
+                     <h2>No Training Required</h2>
+                     <p class="s-12 m-12 l-8 center">
+                        Unlike deep learning models (YOLO26 and SAM 3), the OpenCV pipeline executes purely from handcrafted rules and graph-cut optimization, eliminating the need for extensive training datasets or GPU hardware.
+                     </p>
+                  </div>
+                  <div class="item">
+                     <h2>Classical vs. Deep Learning Trade-Off</h2>
+                     <p class="s-12 m-12 l-8 center">
+                        While fast and lightweight, rule-based detection can struggle with diverse vehicle colors, partial occlusions, and varying taillight shapes—highlighting why modern neural architectures are favored for complex autonomous driving environments.
+                     </p>
+                  </div>
+                  <div class="item">
+                     <h2>Energy Minimization Precision</h2>
+                     <p class="s-12 m-12 l-8 center">
+                        By formulating segmentation as a graph min-cut problem, GrabCut achieves sharp, edge-aligned vehicle boundaries that balance statistical color models against neighborhood smoothness penalties.
+                     </p>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </section>
+
+      <!-- FOOTER -->   
+      <footer>
+         <div class="line">
+            <div class="s-12 l-6">
+               <p>Copyright 2026, Team CLAW - Carleton College Computer Science Comps</p>
+            </div>
+            <div class="s-12 l-6">
+               <p class="right">
+                  <a class="right" href="http://www.myresponsee.com" title="Responsee - lightweight responsive framework">Original Design by Responsee Team, Adapted by Team CLAW</a>
+               </p>
+            </div>
+         </div>
+      </footer>
+
+      <script type="text/javascript" src="js/responsee.js"></script> 
+      <script type="text/javascript" src="owl-carousel/owl.carousel.js"></script>   
+      <script type="text/javascript">
+         jQuery(document).ready(function($) {  
+           var owl = $('#news-carousel');
+           owl.owlCarousel({
+              nav: true,
+              dots: false,
+              items: 1,
+              loop: true,
+              navText: ["&#xf007","&#xf006"],
+              autoplay: true,
+              autoplayTimeout: 5000
+           });
+         });	
+      </script>  
+   </body>
+</html>
