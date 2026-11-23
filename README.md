@@ -49,7 +49,6 @@ CLAWCSComps/
 ├── YOLOWork/             # YOLO26 model pipeline & inference handlers (Conrado & Luke)
 │   ├── Code/             # Live webcam/OBS and file-based video inference scripts
 │   ├── ConradoWorkNotes/ # Weekly engineering notes and logs
-│   └── WriteUp/          # Section documentation
 ├── tradalgo/             # Classical CV vehicle segmentation baseline
 │   ├── main.py           # Entry point for image segmentation
 │   ├── colorThreshold.py # HSV thresholding and GrabCut segmentation
@@ -75,14 +74,12 @@ CLAWCSComps/
 ## Components & Subsystems
 
 ### 1. YOLO26 (`YOLOWork/`)
-* **Team members:** Conrado & Luke
 * Implements real-time inference workflows for both pre-recorded video files and live video feeds (via webcam or OBS Virtual Camera).
 * Key scripts:
   - [`YOLOWork/Code/yoloBaseLiveHandler.py`](YOLOWork/Code/yoloBaseLiveHandler.py): Real-time stream processing with OpenCV and YOLO.
   - [`YOLOWork/Code/yoloBaseFileHandler.py`](YOLOWork/Code/yoloBaseFileHandler.py): File batch inference and annotated video generation.
 
 ### 2. SAM 3 (`SAM3Work/`)
-* **Team members:** Amery & Walter
 * Implements the promptable instance segmentation pipeline using Meta's SAM 3 model with the text prompt `"car"`.
 * Key scripts:
   - [`SAM3Work/Code/Dockerfile`](SAM3Work/Code/Dockerfile): Containerized environment for GPU training.
