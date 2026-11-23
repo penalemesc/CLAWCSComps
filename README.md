@@ -48,7 +48,6 @@ CLAWCSComps/
 │   └── Code/             # Dockerfile, fine-tuning scripts, and configuration
 ├── YOLOWork/             # YOLO26 model pipeline & inference handlers (Conrado & Luke)
 │   ├── Code/             # Live webcam/OBS and file-based video inference scripts
-│   ├── ConradoWorkNotes/ # Weekly engineering notes and logs
 ├── tradalgo/             # Classical CV vehicle segmentation baseline
 │   ├── main.py           # Entry point for image segmentation
 │   ├── colorThreshold.py # HSV thresholding and GrabCut segmentation
