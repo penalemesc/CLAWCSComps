@@ -18,19 +18,17 @@ import common
 
 SIZES = {"small": (0, 32 ** 2), "medium": (32 ** 2, 96 ** 2), "large": (96 ** 2, np.inf)}
 
-
+# Input: a function and its arguments
+# Output: what the function returns
+# Does: runs it with its printed output hidden (pycocotools prints a lot)
 def quiet(fn, *args):
-    # Input: a function and its arguments
-    # Output: what the function returns
-    # Does: runs it with its printed output hidden (pycocotools prints a lot)
     with contextlib.redirect_stdout(io.StringIO()):
         return fn(*args)
 
-
+# Input: COCO ground truth, one model's predictions, that model's score threshold
+# Output: per image (TP, FP, FN); per ground-truth car, True if it was found
+# Does: matches detections to cars at IoU 0.5 with COCOeval, then counts only detections above the threshold
 def per_image_and_car(coco_gt, pred, threshold):
-    # Input: COCO ground truth, one model's predictions, that model's score threshold
-    # Output: per image (TP, FP, FN); per ground-truth car, True if it was found
-    # Does: matches detections to cars at IoU 0.5 with COCOeval, then counts only detections above the threshold
     by_name = {img["file_name"]: img["id"] for img in coco_gt.dataset["images"]}
     results = [{"image_id": by_name[d["file_name"]], "category_id": 1, "bbox": d["bbox"], "score": d["score"]}
                for d in pred["detections"] if d["label"] == "car" and d["file_name"] in by_name]
@@ -56,18 +54,16 @@ def per_image_and_car(coco_gt, pred, threshold):
     assert len(images) == n_img
     return images, found
 
-
+# Input: true positives, false positives, false negatives
+# Output: F1 = 2TP / (2TP + FP + FN), or 1.0 if there is nothing to find and nothing found
+# Does: scores one image
 def f1(tp, fp, fn):
-    # Input: true positives, false positives, false negatives
-    # Output: F1 = 2TP / (2TP + FP + FN), or 1.0 if there is nothing to find and nothing found
-    # Does: scores one image
     return 1.0 if tp + fp + fn == 0 else 2 * tp / (2 * tp + fp + fn)
 
-
+# Input: command-line options (metrics file, models a, b and ref, share of hardest images, output path)
+# Output: the agreement report, written to a JSON file and printed
+# Does: compares which cars and which images two models get right or wrong
 def main():
-    # Input: command-line options (metrics file, models a, b and ref, share of hardest images, output path)
-    # Output: the agreement report, written to a JSON file and printed
-    # Does: compares which cars and which images two models get right or wrong
     parser = argparse.ArgumentParser()
     parser.add_argument("--metrics", default=os.path.join(common.OUTPUT_DIR, "metrics_val_ft.json"))
     parser.add_argument("--a", default="yolo26m_ft")
