@@ -14,6 +14,67 @@
       <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700,800&subset=latin,latin-ext' rel='stylesheet' type='text/css'>
       <script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
       <script type="text/javascript" src="js/jquery-ui.min.js"></script>    
+      <!-- Styles for this page. The first four rules are the same as on opencv.html -->
+      <style>
+         .figure-card {
+            background: #fcfcfc;
+            border: 1px solid #e2e8f0;
+            border-radius: 6px;
+            padding: 1.25rem;
+            margin: 1.5rem 0 2rem;
+            text-align: center;
+         }
+         .figure-card img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 4px;
+            display: inline-block;
+         }
+         .figure-caption {
+            margin-top: 0.75rem;
+            font-size: 0.95rem;
+            color: #555;
+            font-style: italic;
+         }
+         .text-content {
+            font-size: 1.05rem;
+            line-height: 1.75;
+            color: #333;
+            text-align: left;
+         }
+         .section-title {
+            color: #001e22;
+            font-size: 1.85rem;
+            font-weight: 700;
+            margin: 2.5rem 0 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #2fcbe0;
+            text-align: left;
+         }
+         .table-wrap {
+            overflow-x: auto;
+            margin: 1.5rem 0 2rem;
+         }
+         .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            color: #333;
+         }
+         .results-table th, .results-table td {
+            padding: 0.6rem 0.75rem;
+            text-align: center;
+            border-bottom: 1px solid #e2e8f0;
+         }
+         .results-table th:first-child, .results-table td:first-child {
+            text-align: left;
+         }
+         .results-table thead th {
+            background: #001e22;
+            color: #fff;
+            font-weight: 600;
+         }
+      </style>
    </head>
    <body class="size-1140">
       <!-- TOP NAV WITH LOGO -->  
@@ -79,111 +140,141 @@
          </nav>
       </header>
       <section>
+         <!-- HEADER BLOCK -->
          <div id="head">
             <div class="line">
-               <h1>Amazing responsive theme based on Responsee</h1>
-            </div>
-         </div>
-         <div id="content">
-            <div class="line">
-               <div class="margin">
-                  <div class="s-12 m-6 l-4">
-                     <div class="content-block margin-bottom">
-                        <i class="icon-paperplane_ico icon2x"></i>
-                        <h3>Lightweight</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                        </p>
-                     </div>
-                  </div>
-                  <div class="s-12 m-6 l-4">
-                     <div class="content-block margin-bottom">
-                        <i class="icon-display_screen icon2x"></i>
-                        <h3>Responsive</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                        </p>
-                     </div>
-                  </div>
-                  <div class="s-12 m-6 l-4">
-                     <div class="content-block margin-bottom">
-                        <i class="icon-heart icon2x"></i>
-                        <h3>Intuitive</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                        </p>
-                     </div>
-                  </div>
-                  <div class="s-12 m-6 l-4">
-                     <div class="content-block margin-bottom">
-                        <i class="icon-attachment icon2x"></i>
-                        <h3>Useful</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                        </p>
-                     </div>
-                  </div>
-                  <div class="s-12 m-6 l-4">
-                     <div class="content-block margin-bottom">
-                        <i class="icon-reorder icon2x"></i>
-                        <h3>Responsive navigation</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                        </p>
-                     </div>
-                  </div>
-                  <div class="s-12 m-6 l-4">
-                     <div class="content-block margin-bottom">
-                        <i class="icon-mail icon2x"></i>
-                        <h3>Responsive components</h3>
-                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.
-                        </p>
-                     </div>
-                  </div>
-               </div>
-            </div>
-         </div>
-         <!-- GALLERY -->	
-         <div id="third-block">
-            <div class="line">
-               <h2>Responsive gallery</h2>
-               <p class="subtitile">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
+               <h1><strong>Results</strong></h1>
+               <p class="s-12 m-12 l-8 center" style="color: white; font-size: 1.15rem; line-height: 1.6; margin-top: 1rem;">
+                  How YOLO26m and SAM 3 compare at finding cars in 998 dashcam images, before and after fine-tuning.
                </p>
-               <div class="margin">
-                  <div class="s-12 m-6 l-3">
-                     <img src="img/first-small.jpg">      
-                     <p class="subtitile">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                     </p>
+            </div>
+         </div>
+
+         <!-- OVERVIEW CONTENT BLOCK -->
+         <div id="content" class="left-align">
+            <div class="line">
+               <div class="text-content">
+                  <p>
+                     We tested four models on 998 BDD100K dashcam images that contain 10,733 cars. Two are <strong>YOLO26m</strong> and <strong>SAM 3</strong> as released, which we call zero-shot. The other two are the same models after fine-tuning on our own training images. All four were scored against the same labels with the same evaluation code.
+                  </p>
+               </div>
+
+               <!-- HIGHLIGHT BOXES -->
+               <div class="margin" style="margin-top: 2rem; margin-bottom: 2rem;">
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <i class="icon-trophy icon2x" style="color: #2fcbe0;"></i>
+                        <h3>Most Accurate</h3>
+                        <p>Fine-tuned SAM 3 leads on every score. Its box AP is 0.573, against 0.534 for fine-tuned YOLO26m.</p>
+                     </div>
                   </div>
-                  <div class="s-12 m-6 l-3">
-                     <img src="img/second-small.jpg">      
-                     <p class="subtitile">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                     </p>
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <i class="icon-stopwatch icon2x" style="color: #2fcbe0;"></i>
+                        <h3>41 Times Faster</h3>
+                        <p>YOLO26m needs about 10 ms per image. SAM 3 needs about 430 ms and 38 times more GPU memory.</p>
+                     </div>
                   </div>
-                  <div class="s-12 m-6 l-3">
-                     <img src="img/third-small.jpg">      
-                     <p class="subtitile">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                     </p>
+                  <div class="s-12 m-6 l-4">
+                     <div class="content-block margin-bottom">
+                        <i class="icon-eye icon2x" style="color: #2fcbe0;"></i>
+                        <h3>Same Blind Spots</h3>
+                        <p>About one car in five is missed by all four models. Almost all of these cars are small in the image.</p>
+                     </div>
                   </div>
-                  <div class="s-12 m-6 l-3">
-                     <img src="img/fourth-small.jpg">      
-                     <p class="subtitile">Lorem ipsum dolor sit amet, consectetuer adipiscing elit.
-                     </p>
+               </div>
+
+               <!-- SECTION 1: ACCURACY -->
+               <h2 class="section-title">Accuracy</h2>
+               <div class="figure-card">
+                  <img src="img/results_accuracy.png" alt="Bar chart of box AP, AP50, AP on small cars and F1 for the four models. In every group the scores rise from zero-shot YOLO26m to fine-tuned SAM 3.">
+                  <div class="figure-caption">
+                     <strong>Figure 1:</strong> Scores of the four models on the test set. Higher is better. The small black lines are 95% confidence intervals.
                   </div>
+               </div>
+               <div class="text-content">
+                  <p>
+                     Fine-tuned SAM 3 is the most accurate model on every score. Its box AP is 0.573, against 0.534 for fine-tuned YOLO26m. Box AP is the standard COCO score for how well a model finds cars and places boxes around them. Fine-tuning helped both models, and it helped YOLO26m more. After fine-tuning, YOLO26m is as accurate as SAM 3 was before fine-tuning. Small cars are the hardest for every model.
+                  </p>
+                  <p>
+                     SAM 3 is also the only one of the two models that outlines each car pixel by pixel. After fine-tuning, its outlines overlap the true car pixels with an IoU of 0.899.
+                  </p>
+               </div>
+
+               <!-- SECTION 2: SPEED AND MEMORY -->
+               <h2 class="section-title">Speed and Memory</h2>
+               <div class="figure-card">
+                  <img src="img/results_speed_memory.png" alt="Two bar charts. YOLO26m needs 10.4 ms per image and 159 MiB of GPU memory. SAM 3 needs about 430 ms per image and about 5,990 MiB.">
+                  <div class="figure-caption">
+                     <strong>Figure 2:</strong> Time per image and peak GPU memory on our lab GPU, an NVIDIA RTX A2000. Lower is better.
+                  </div>
+               </div>
+               <div class="text-content">
+                  <p>
+                     This accuracy has a price. YOLO26m needs about 10 ms per image and SAM 3 needs about 430 ms, so YOLO26m is about 41 times faster. YOLO26m can keep up with a 30 frames per second video, while SAM 3 can handle only about one frame in thirteen. SAM 3 also needs 38 times more GPU memory.
+                  </p>
+               </div>
+
+               <!-- SECTION 3: WHERE THE MODELS FAIL -->
+               <h2 class="section-title">Where the Models Fail</h2>
+               <div class="figure-card">
+                  <img src="img/results_missed_cars.jpg" alt="A street photo taken from a car. Sixteen small or partly hidden cars are marked with yellow boxes. Thirteen other cars are marked with white boxes.">
+                  <div class="figure-caption">
+                     <strong>Figure 3:</strong> One test image. The yellow boxes mark 16 cars that none of the four models found. The white boxes mark cars that at least one model found.
+                  </div>
+               </div>
+               <div class="text-content">
+                  <p>
+                     All four models miss many of the same cars. About one car in five, 2,211 of 10,733, is missed by every model, and 93% of these cars are small in the image. They are far away or partly hidden behind other cars, as in the photo above. Even the best model, fine-tuned SAM 3, finds only three cars out of four.
+                  </p>
+               </div>
+
+               <!-- SECTION 4: SUMMARY TABLE -->
+               <h2 class="section-title">Summary of the Numbers</h2>
+               <div class="table-wrap">
+                  <table class="results-table">
+                     <thead>
+                        <tr><th></th><th>YOLO26m<br>zero-shot</th><th>YOLO26m<br>fine-tuned</th><th>SAM 3<br>zero-shot</th><th>SAM 3<br>fine-tuned</th></tr>
+                     </thead>
+                     <tbody>
+                        <tr><td>Box AP</td><td>0.463</td><td>0.534</td><td>0.532</td><td><strong>0.573</strong></td></tr>
+                        <tr><td>AP50</td><td>0.661</td><td>0.742</td><td>0.766</td><td><strong>0.801</strong></td></tr>
+                        <tr><td>F1</td><td>0.689</td><td>0.755</td><td>0.762</td><td><strong>0.786</strong></td></tr>
+                        <tr><td>Cars found</td><td>60%</td><td>69%</td><td>71%</td><td><strong>75%</strong></td></tr>
+                        <tr><td>Time per image</td><td><strong>10.4 ms</strong></td><td><strong>10.4 ms</strong></td><td>429 ms</td><td>427 ms</td></tr>
+                        <tr><td>GPU memory</td><td><strong>159 MiB</strong></td><td><strong>159 MiB</strong></td><td>5,990 MiB</td><td>5,992 MiB</td></tr>
+                     </tbody>
+                  </table>
                </div>
             </div>
          </div>
+
+         <!-- TAKEAWAYS CAROUSEL -->
          <div id="fourth-block">
             <div class="line">
                <div id="news-carousel" class="owl-carousel owl-theme">
                   <div class="item">
-                     <h2>Amazing responsive template</h2>
-                     <p class="s-12 m-12 l-8 center">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+                     <h2>When Speed Matters</h2>
+                     <p class="s-12 m-12 l-8 center">
+                        YOLO26m is the practical choice for live video on a small device. It handles 96 images per second with 159 MiB of GPU memory.
                      </p>
                   </div>
                   <div class="item">
-                     <h2>Responsive components</h2>
-                     <p class="s-12 m-12 l-8 center">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+                     <h2>When Accuracy Matters</h2>
+                     <p class="s-12 m-12 l-8 center">
+                        SAM 3 is the better choice when accuracy or pixel-level outlines matter more than speed, for example for labeling recorded driving images.
                      </p>
                   </div>
                   <div class="item">
-                     <h2>Retina ready</h2>
-                     <p class="s-12 m-12 l-8 center">Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat. Ut wisi enim ad minim veniam, quis nostrud exerci tation ullamcorper suscipit lobortis nisl ut aliquip ex ea commodo consequat.
+                     <h2>Not Enough for Self-Driving</h2>
+                     <p class="s-12 m-12 l-8 center">
+                        Neither model alone is enough for a self-driving car. SAM 3 is too slow, and both models miss too many small and hidden cars.
+                     </p>
+                  </div>
+                  <div class="item">
+                     <h2>Labels Matter</h2>
+                     <p class="s-12 m-12 l-8 center">
+                        Our first labels merged touching cars into one box. With them, both models scored only about a third of their real box AP.
                      </p>
                   </div>
                </div>
