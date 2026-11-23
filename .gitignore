@@ -7,3 +7,4 @@ yolo26n-seg.pt
 SharedGT/yolo/labels/
 SharedGT/yolo/images
 runs/
+YOLOWork/
