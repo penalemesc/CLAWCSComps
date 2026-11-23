@@ -18,14 +18,17 @@ import common
 
 SIZES = {"small": (0, 32 ** 2), "medium": (32 ** 2, 96 ** 2), "large": (96 ** 2, np.inf)}
 
-
+# Input: a function and its arguments
+# Output: what the function returns
+# Does: runs it with its printed output hidden (pycocotools prints a lot)
 def quiet(fn, *args):
     with contextlib.redirect_stdout(io.StringIO()):
         return fn(*args)
 
-
+# Input: COCO ground truth, one model's predictions, that model's score threshold
+# Output: per image (TP, FP, FN); per ground-truth car, True if it was found
+# Does: matches detections to cars at IoU 0.5 with COCOeval, then counts only detections above the threshold
 def per_image_and_car(coco_gt, pred, threshold):
-    """Per image: TP/FP/FN at the threshold; per GT car: found or not."""
     by_name = {img["file_name"]: img["id"] for img in coco_gt.dataset["images"]}
     results = [{"image_id": by_name[d["file_name"]], "category_id": 1, "bbox": d["bbox"], "score": d["score"]}
                for d in pred["detections"] if d["label"] == "car" and d["file_name"] in by_name]
@@ -51,11 +54,15 @@ def per_image_and_car(coco_gt, pred, threshold):
     assert len(images) == n_img
     return images, found
 
-
+# Input: true positives, false positives, false negatives
+# Output: F1 = 2TP / (2TP + FP + FN), or 1.0 if there is nothing to find and nothing found
+# Does: scores one image
 def f1(tp, fp, fn):
     return 1.0 if tp + fp + fn == 0 else 2 * tp / (2 * tp + fp + fn)
 
-
+# Input: command-line options (metrics file, models a, b and ref, share of hardest images, output path)
+# Output: the agreement report, written to a JSON file and printed
+# Does: compares which cars and which images two models get right or wrong
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--metrics", default=os.path.join(common.OUTPUT_DIR, "metrics_val_ft.json"))
@@ -83,6 +90,9 @@ def main():
     fb = np.array([per_car[args.b][c["id"]] for c in cars])
     area = np.array([c["area"] for c in cars])
     def table(mask):
+        # Input: a True/False mask that selects cars (all cars, or one size class)
+        # Output: cars found by both / only a / only b / neither, recalls, Cohen's kappa, McNemar p-value
+        # Does: measures how much models a and b agree car by car
         a, b = fa[mask], fb[mask]
         both, only_a, only_b, neither = (int(np.sum(a & b)), int(np.sum(a & ~b)), int(np.sum(~a & b)), int(np.sum(~a & ~b)))
         n = len(a)
@@ -99,6 +109,9 @@ def main():
     f = {n: np.array([f1(*per_img[n][i]) for i in img_ids]) for n in names}
     with_cars = np.array([per_img[args.a][i][0] + per_img[args.a][i][2] > 0 for i in img_ids])
     def spearman(x, y):
+        # Input: per-image F1 of two models
+        # Output: Spearman rank correlation, over images that contain cars
+        # Does: checks whether the two models find the same images hard
         return float(stats.spearmanr(x[with_cars], y[with_cars]).statistic)
     k = int(round(args.hard * with_cars.sum()))
     idx = np.where(with_cars)[0]
@@ -123,6 +136,9 @@ def main():
                                       .convert("L").reduce(8)).mean() for i in img_ids])
     gap = f[args.b] - f[args.a]
     def rho(x):
+        # Input: one property per image (number of cars, share of small cars, or brightness)
+        # Output: Spearman correlation and p-value between that property and the F1 gap
+        # Does: checks which kind of image makes model b beat model a
         m = with_cars & ~np.isnan(x)
         r = stats.spearmanr(gap[m], x[m])
         return {"spearman": float(r.statistic), "p": float(r.pvalue)}

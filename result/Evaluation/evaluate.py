@@ -22,6 +22,9 @@ MAX_DET = 100
 CAR_TRAIN_ID = 13
 
 
+# Input: a list of "name=value" strings from the command line (or None)
+# Output: a dict name -> value
+# Does: reads options such as --pred yolo26m=pred.json
 def parse_named(values):
     out = {}
     for item in values or []:
@@ -30,17 +33,26 @@ def parse_named(values):
     return out
 
 
+# Input: a function and its arguments
+# Output: what the function returns
+# Does: runs it with its printed output hidden (pycocotools prints a lot)
 def quiet(fn, *args):
     with contextlib.redirect_stdout(io.StringIO()):
         return fn(*args)
 
 
+# Input: path to a COCO ground-truth JSON file
+# Output: the COCO object and a dict file name -> image id
+# Does: loads the labels
 def load_gt(path):
     coco = quiet(COCO, path)
     by_name = {img["file_name"]: img["id"] for img in coco.dataset["images"]}
     return coco, by_name
 
 
+# Input: one model's predictions, file name -> image id, category id, prediction labels that count as car, "bbox" or "segm"
+# Output: the detections as a list in COCO results format
+# Does: converts predictions for COCOeval, and stops if a test image has no prediction record
 def to_results(pred, by_name, category_id, labels, iou_type):
     predicted = {img["file_name"] for img in pred["images"]}
     missing = set(by_name) - predicted
@@ -58,8 +70,10 @@ def to_results(pred, by_name, category_id, labels, iou_type):
     return results
 
 
+# Input: ground truth, detections in COCO format, "bbox" or "segm"
+# Output: the 12 COCO summary numbers; per image (scores, matches, ignore flags, number of cars) for all cars and for small cars
+# Does: runs pycocotools and keeps the per-image matches, so the bootstrap can recompute AP without matching again
 def run_cocoeval(coco_gt, results, iou_type):
-    """pycocotools stats plus per-image matches for the bootstrap."""
     coco_dt = quiet(coco_gt.loadRes, results) if results else COCO()
     ev = COCOeval(coco_gt, coco_dt, iou_type)
     quiet(ev.evaluate)
@@ -86,8 +100,10 @@ def run_cocoeval(coco_gt, results, iou_type):
     return stats, per_area
 
 
+# Input: per-image records from run_cocoeval, image indices
+# Output: AP at each of the 10 IoU thresholds (NaN if there are no cars)
+# Does: the same 101-point calculation as COCOeval.accumulate, on the chosen images
 def ap_per_iou(records, idx):
-    """COCOeval.accumulate over a resampled set of images."""
     sel = [records[i] for i in idx]
     n_gt = sum(r[3] for r in sel)
     n_iou = sel[0][1].shape[0]
@@ -114,14 +130,19 @@ def ap_per_iou(records, idx):
     return ap
 
 
+# Input: per-image records for all cars and for small cars, image indices
+# Output: AP, AP50, AP75 and AP small
+# Does: the four AP values that the bootstrap resamples
 def summary_from_records(per_area, idx):
     ap_all = ap_per_iou(per_area[AREA_ALL], idx)
     return {"AP": ap_all.mean(), "AP50": ap_all[0], "AP75": ap_all[5],
             "AP_small": ap_per_iou(per_area[AREA_SMALL], idx).mean()}
 
 
+# Input: per-image records, image indices, score threshold
+# Output: precision, recall, F1, TP, FP, FN
+# Does: counts matches at IoU 0.5, keeping only detections with score >= threshold
 def prf_at(records, idx, threshold):
-    """P/R/F1 at IoU 0.5 for scores >= threshold."""
     tp = fp = n_gt = 0
     for i in idx:
         scores, matched, ignored, gt = records[i]
@@ -135,8 +156,10 @@ def prf_at(records, idx, threshold):
     return {"precision": precision, "recall": recall, "F1": f1, "TP": tp, "FP": fp, "FN": n_gt - tp}
 
 
+# Input: per-image records on the dev set
+# Output: the score threshold
+# Does: picks the score cut with the highest F1 at IoU 0.5, only cutting between different scores
 def best_f1_threshold(records):
-    # Max-F1 score cut at IoU 0.5
     scores = np.concatenate([r[0] for r in records])
     matched = np.concatenate([r[1][0] & ~r[2][0] for r in records])
     counted = np.concatenate([~r[2][0] for r in records])
@@ -151,6 +174,9 @@ def best_f1_threshold(records):
     return float(scores[best])
 
 
+# Input: COCO ground truth that has masks
+# Output: a function file name -> True/False map of car pixels
+# Does: merges all car masks of each image into one map
 def gt_masks_from_coco(coco_gt):
     union = {}
     for img_id, img in coco_gt.imgs.items():
@@ -159,19 +185,27 @@ def gt_masks_from_coco(coco_gt):
                 for r in rles]
         union[img["file_name"]] = (mask_utils.merge(rles) if rles else None, (img["height"], img["width"]))
 
+    # Input: an image file name
+    # Output: True/False array of car pixels (all False if the image has no cars)
+    # Does: decodes the merged mask
     def get(name):
         rle, shape = union[name]
         return np.zeros(shape, bool) if rle is None else mask_utils.decode(rle).astype(bool)
     return get
 
 
+# Input: folder of semantic label PNGs
+# Output: a function file name -> True/False map of car pixels
+# Does: uses the car class (train id 13) of the old semantic masks, when the GT file has no masks
 def gt_masks_from_semantic(sem_dir):
     return lambda name: np.array(Image.open(os.path.join(
         sem_dir, os.path.splitext(name)[0] + "_train_id.png"))) == CAR_TRAIN_ID
 
 
+# Input: predictions, image names, GT mask function, labels that count as car, score threshold, "mask" or "box"
+# Output: array with one row per image: (overlap pixels, predicted pixels, GT pixels)
+# Does: paints the kept detections (masks, or boxes filled in) and compares them with the GT car pixels
 def pixel_counts(pred, file_names, gt_mask, labels, threshold, fill):
-    """Per image (intersection, predicted px, GT px). fill: "mask" or "box"."""
     kept = defaultdict(list)
     for det in pred["detections"]:
         if det["label"] in labels and det["score"] >= threshold:
@@ -191,6 +225,9 @@ def pixel_counts(pred, file_names, gt_mask, labels, threshold, fill):
     return np.array(counts, dtype=np.int64)
 
 
+# Input: per-image pixel counts, image indices
+# Output: pixel IoU and Dice pooled over the images, plus their per-image means
+# Does: turns pixel counts into scores
 def pixel_summary(counts, idx):
     inter, pred, gt = counts[idx].T
     union = pred + gt - inter
@@ -200,6 +237,9 @@ def pixel_summary(counts, idx):
             "mean_image_Dice": float(np.mean(2 * inter[has] / (pred + gt)[has])) if has.any() else float("nan")}
 
 
+# Input: predictions with per-image latency, image names
+# Output: mean, std, median and 95th-percentile latency in ms, fps, peak GPU memory, device
+# Does: summarizes speed and memory on these images
 def latency_summary(pred, file_names):
     keep = set(file_names)
     ms = np.array([img["latency_ms"] for img in pred["images"] if img["file_name"] in keep])
@@ -208,6 +248,9 @@ def latency_summary(pred, file_names):
             "peak_memory_mb": pred.get("peak_memory_mb"), "device": pred["env"].get("gpu", pred["env"]["device"])}
 
 
+# Input: GT path, dict model name -> predictions, options, "bbox" or "segm"
+# Output: dict model name -> run_cocoeval result, and the number of images
+# Does: scores every model on one split (skips "segm" for models without masks)
 def evaluate_split(gt_path, preds, args, iou_type):
     coco_gt, by_name = load_gt(gt_path)
     category_id = coco_gt.getCatIds(catNms=[args.category])[0]
@@ -221,6 +264,8 @@ def evaluate_split(gt_path, preds, args, iou_type):
     return out, len(by_name)
 
 
+# Input: model name, pycocotools stats, per-image records, number of images
+# Does: checks that ap_per_iou reproduces pycocotools exactly on the full set
 def check_fast_path(name, stats, per_area, n):
     fast = summary_from_records(per_area, range(n))
     for key in ("AP", "AP50", "AP75", "AP_small"):
@@ -229,6 +274,9 @@ def check_fast_path(name, stats, per_area, n):
                              f"{fast[key]} vs {stats[key]}")
 
 
+# Input: box results and pixel counts per model, number of images, thresholds, rounds, random seed
+# Output: 95% CIs for every model, and for the difference of every pair of models
+# Does: paired bootstrap: each round resamples the images once and scores every model on the same sample
 def bootstrap(evals, pixels, n_images, thresholds, rounds, seed):
     rng = np.random.default_rng(seed)
     names = list(evals)
@@ -256,6 +304,9 @@ def bootstrap(evals, pixels, n_images, thresholds, rounds, seed):
     return ci
 
 
+# Input: command-line options (test GT and predictions, dev GT and predictions, thresholds, bootstrap rounds, output path)
+# Output: the metrics report, written to a JSON file and printed as a table
+# Does: box and mask AP, threshold from dev, P/R/F1, pixel IoU and Dice, speed and memory, bootstrap CIs
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--gt", required=True)
@@ -326,6 +377,8 @@ def main():
     print(f"\nwrote {args.out}")
 
 
+# Input: the metrics report
+# Does: shows the main numbers and CIs for each model and each pair of models
 def print_table(report):
     ci_all = report.get("bootstrap", {}).get("ci95", {})
     ci = ci_all.get("models", {})
@@ -335,6 +388,9 @@ def print_table(report):
     for name, m in report["models"].items():
         b, c = m["box"], ci.get(name, {})
 
+        # Input: a metric name
+        # Output: text "value [low,high]", or "value" if there is no CI
+        # Does: formats one table cell
         def cell(key):
             if key in c:
                 return f"{b[key]:.3f} [{c[key][0]:.3f},{c[key][1]:.3f}]"

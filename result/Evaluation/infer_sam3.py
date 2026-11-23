@@ -1,4 +1,5 @@
-# Zero-shot SAM3 inference
+# SAM 3 inference with a text prompt
+# Uses the released weights, or fine-tuned weights when --finetuned is given
 
 import argparse
 import os
@@ -16,9 +17,12 @@ import common
 from sam3.model.sam3_image_processor import Sam3Processor
 from sam3.model_builder import build_sam3_image_model
 
+# Number formats that the model can run in
 DTYPES = {"bf16": torch.bfloat16, "fp16": torch.float16}
 
 
+# Input: model (SAM 3 image model), path (fine-tuned checkpoint file)
+# Does: loads the fine-tuned weights into the model and stops if they do not fit (missing sam2_convs tensors are allowed)
 def load_finetuned(model, path):
     ckpt = torch.load(path, map_location="cpu", weights_only=True, mmap=True)
     state = ckpt.get("model", ckpt)
@@ -30,6 +34,8 @@ def load_finetuned(model, path):
     print(f"loaded {len(state)} fine-tuned tensors from {os.path.basename(path)} (epoch {ckpt.get('epoch')})")
 
 
+# Input: command-line arguments (weights, image folder, prompt, score cut, precision and so on)
+# Does: runs SAM 3 on every image and saves a box, a score and a mask for each detection
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument("--weights", default=os.path.join(common.WORKSPACE_DIR, "sam3.pt"))
@@ -50,6 +56,7 @@ def main():
     device = common.pick_device(args.device)
     precision = args.precision
 
+    # Build the model, load the weights and wrap it in the SAM 3 processor
     model = build_sam3_image_model(checkpoint_path=args.weights, load_from_HF=False, eval_mode=True,
                                    device="cuda" if device.startswith("cuda") else "cpu")
     if args.finetuned:
@@ -57,18 +64,26 @@ def main():
     model = model.to(device)
     processor = Sam3Processor(model, device=device, confidence_threshold=args.conf)
 
+    # Input: none
+    # Output: an autocast context
+    # Does: makes the model run in the chosen number format (bf16 or fp16)
     def autocast():
         return torch.autocast(device_type=device.split(":")[0], dtype=DTYPES[precision])
 
+    # Input: image (PIL image)
+    # Output: dict with "boxes", "scores" and "masks"
+    # Does: runs SAM 3 on one image with the text prompt
     def run(image):
         with autocast():
             state = processor.set_image(image)
             return processor.set_text_prompt(prompt=args.prompt, state=state)
 
+    # Warm-up runs, not timed
     files = common.list_images(args.images, args.limit, args.file_list)
     for name in files[: args.warmup]:
         run(Image.open(os.path.join(args.images, name)).convert("RGB"))
 
+    # Main loop, one image at a time, timed
     images, detections = [], []
     common.reset_peak_memory(device)
     peak_mb = 0.0
@@ -80,19 +95,23 @@ def main():
         peak_mb = max(peak_mb, common.memory_mb(device))
         images.append({"file_name": name, "width": width, "height": height, "latency_ms": timer.ms})
 
+        # Keep the max_det detections with the highest scores
         scores = out["scores"].float().cpu()
         order = torch.argsort(scores, descending=True)[: args.max_det]
         boxes = out["boxes"].float().cpu()[order].tolist()
         masks = None if args.no_masks else out["masks"][order].squeeze(1).cpu().numpy()
         for i, (x1, y1, x2, y2) in enumerate(boxes):
+            # Box is saved as x, y, width, height
             det = {"file_name": name, "label": args.prompt, "score": float(scores[order[i]]),
                    "bbox": [x1, y1, x2 - x1, y2 - y1]}
             if masks is not None:
+                # Mask is saved in COCO run-length encoding (RLE)
                 rle = mask_utils.encode(np.asfortranarray(masks[i].astype(np.uint8)))
                 rle["counts"] = rle["counts"].decode("ascii")
                 det["segmentation"] = rle
             detections.append(det)
 
+    # Save everything in one JSON file
     common.write_json(args.out, {
         "model": os.path.basename(args.finetuned or args.weights),
         "config": {"finetuned": bool(args.finetuned), "prompt": args.prompt, "resolution": processor.resolution, "conf": args.conf,
