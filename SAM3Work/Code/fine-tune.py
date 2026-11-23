@@ -103,7 +103,6 @@ def peak_mem_gb(device):
         return torch.mps.driver_allocated_memory() / 2**30
     return 0.0
 
-
 def build_model():
     from sam3.model_builder import build_sam3_image_model
 
@@ -118,11 +117,9 @@ def build_model():
         raise SystemExit(f"{WEIGHTS} does not fit: missing {missing[:5]}, unexpected {unexpected[:5]}")
     return model
 
-
 def trunk_block(name):
     prefix = "backbone.vision_backbone.trunk.blocks."
     return int(name[len(prefix):].split(".")[0]) if name.startswith(prefix) else None
-
 
 def no_grad(fn):
     def wrapped(*a, **k):
@@ -130,11 +127,9 @@ def no_grad(fn):
             return fn(*a, **k)
     return wrapped
 
-
 def trainable_mlp(mlp, x):
     x = F.gelu(mlp.fc1(x), approximate="tanh")
     return mlp.drop2(mlp.fc2(mlp.norm(mlp.drop1(x))))
-
 
 def freeze(model, unfreeze_last):
     for name, p in model.named_parameters():
@@ -149,12 +144,10 @@ def freeze(model, unfreeze_last):
     enc = model.backbone.language_backbone.encoder
     enc.forward = no_grad(enc.forward)
 
-
 def set_train_mode(model):
     model.train()
     model.backbone.vision_backbone.trunk.eval()
     model.backbone.language_backbone.encoder.eval()
-
 
 def param_groups(model):
     groups = {}
@@ -177,13 +170,11 @@ def param_groups(model):
         groups[key]["params"].append(p)
     return list(groups.values())
 
-
 def lr_factor(step, total, warmup, min_ratio):
     if step < warmup:
         return (step + 1) / warmup
     progress = min(1.0, (step - warmup) / max(1, total - warmup))
     return min_ratio + (1 - min_ratio) * 0.5 * (1 + math.cos(math.pi * progress))
-
 
 def build_loss(with_masks, mask_points):
     from sam3.train.loss.loss_fns import Boxes, IABCEMdetr, Masks
@@ -214,7 +205,6 @@ def build_loss(with_masks, mask_points):
         o2m_matcher=BinaryOneToManyMatcher(alpha=0.3, threshold=0.4, topk=4), o2m_weight=2.0,
         use_o2m_matcher_on_o2m_aux=False, loss_fn_semantic_seg=None, scale_by_find_batch_size=True)
 
-
 def train_transforms(resolution=1008):
     from sam3.train.transforms import basic_for_api as T
     from sam3.train.transforms.basic import get_random_resize_max_size, get_random_resize_scales
@@ -239,11 +229,9 @@ def train_transforms(resolution=1008):
     return [T.ComposeAPI(transforms=steps),
             FlexibleFilterFindGetQueries(query_filter=FilterFindQueriesWithTooManyOut(max_num_objects=200))]
 
-
 def seed_worker(base, worker_id):
     random.seed(base + worker_id)
     np.random.seed(base + worker_id)
-
 
 def build_train_dataset():
     from sam3.train.data.coco_json_loaders import COCO_FROM_JSON
@@ -259,11 +247,9 @@ def build_train_dataset():
         use_caching=False, coco_json_loader=partial(COCO_FROM_JSON, include_negatives=True),
         limit_ids=LIMIT)
 
-
 def collate():
     from sam3.train.data.collator import collate_fn_api
     return partial(collate_fn_api, repeats=1, dict_key="all", with_seg_masks=not NO_MASKS)
-
 
 def build_train_loader(device, epoch, dataset):
     g = torch.Generator()
@@ -272,7 +258,6 @@ def build_train_loader(device, epoch, dataset):
         dataset, batch_size=BATCH, shuffle=True, generator=g, num_workers=WORKERS,
         pin_memory=device.startswith("cuda"), drop_last=True, persistent_workers=False,
         worker_init_fn=partial(seed_worker, SEED * 1000 + epoch * 100), collate_fn=collate())
-
 
 def check_labels():
     dataset = build_train_dataset()
@@ -301,7 +286,6 @@ def check_labels():
               f"target boxes {n}, masks {0 if tgt.segments is None else len(tgt.segments)}, "
               f"prompt {b.find_text_batch}, image {tuple(b.img_batch.shape[-2:])}")
     print(f"wrote {out_dir}")
-
 
 @torch.no_grad()
 def evaluate_dev(model, device, limit=None):
@@ -336,23 +320,19 @@ def evaluate_dev(model, device, limit=None):
     stats = dict(zip(keys, [float(x) for x in ev.stats[:9]]))
     return {**stats, "n_images": len(images), "n_dets": len(dets), "seconds": round(seconds, 1)}
 
-
 def fmt(m):
     return f"AP {m['AP']:.4f} AP50 {m['AP50']:.4f} AP75 {m['AP75']:.4f} APs {m['AP_small']:.4f} ({m['n_images']} imgs, {m['seconds']:.0f}s)"
-
 
 def save_best(model, path, meta):
     tmp = path + ".tmp"
     torch.save({"model": model.state_dict(), **meta}, tmp)
     os.replace(tmp, path)
 
-
 def save_last(model, optimizer, path, meta):
     trainable = {n: p.detach().cpu() for n, p in model.named_parameters() if p.requires_grad}
     tmp = path + ".tmp"
     torch.save({"trainable": trainable, "optimizer": optimizer.state_dict(), **meta}, tmp)
     os.replace(tmp, path)
-
 
 def main():
     os.makedirs(OUT_DIR, exist_ok=True)
@@ -512,7 +492,6 @@ def main():
     with open(os.path.join(OUT_DIR, "history.json"), "w") as f:
         json.dump(history, f, indent=2)
     log(f"finished, best dev AP {best_ap:.4f}, total {(time.time() - t_start) / 3600:.2f} h")
-
 
 if __name__ == "__main__":
     main()

@@ -159,15 +159,28 @@ section h1 {
 	margin: 1rem 0 0.3rem;
 	text-transform: none;
 }
+.margin {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: stretch;
+}
+.margin > div {
+	display: flex;
+	flex-direction: column;
+}
 .content-block {
 	background: none repeat scroll 0 0 rgb(0, 30, 34);
 	padding: 2.5rem;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 .content-block h3 {
 	color: #fff;
 }
 .content-block p {
 	color: #fff;
+	flex-grow: 1;
 }
 #content.left-align {
 	text-align: left;
