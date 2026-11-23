@@ -22,7 +22,7 @@ import torch.nn.functional as F
 from functools import partial
 from PIL import Image, ImageDraw
 
-# Import configuration and logger
+# Import the ungodly amount of constants
 from config import (
     FROZEN, TRUNK_DEPTH,
     OUT_DIR, WEIGHTS, TRAIN_JSON, DEV_JSON, IMAGES, PROMPT,
@@ -36,6 +36,7 @@ from logger import Logger
 
 
 def pick_device(requested):
+    # Select device: requested > CUDA > MPS > CPU
     if requested:
         return requested
     if torch.cuda.is_available():
@@ -46,6 +47,7 @@ def pick_device(requested):
 
 
 def install_focal_loss_fallback():
+    # Use triton implementation of focal loss if available, otherwise create fallback
     try:
         import triton
         return False
@@ -67,6 +69,7 @@ def install_focal_loss_fallback():
 
 
 def file_md5(path):
+    # Compute MD5 hash of a file
     h = hashlib.md5()
     with open(path, "rb") as f:
         for chunk in iter(lambda: f.read(1 << 20), b""):
@@ -75,6 +78,7 @@ def file_md5(path):
 
 
 def sam3_commit():
+    # Get SAM3 Git commit hash
     import sam3
     try:
         from importlib.metadata import distribution
@@ -93,10 +97,12 @@ def sam3_commit():
 
 
 def autocast(device):
+    # Return autocast context for mixed precision training
     return torch.autocast(device_type=device.split(":")[0], dtype=torch.bfloat16)
 
 
 def peak_mem_gb(device):
+    # Get peak GPU/MPS memory usage in GB
     if device.startswith("cuda"):
         return torch.cuda.max_memory_allocated() / 2**30
     if device == "mps":
@@ -104,6 +110,7 @@ def peak_mem_gb(device):
     return 0.0
 
 def build_model():
+    # Load SAM3 model and restore weights
     from sam3.model_builder import build_sam3_image_model
 
     model = build_sam3_image_model(checkpoint_path=None, load_from_HF=False, eval_mode=False,
@@ -118,20 +125,24 @@ def build_model():
     return model
 
 def trunk_block(name):
+    # Extract vision backbone block index from parameter name
     prefix = "backbone.vision_backbone.trunk.blocks."
     return int(name[len(prefix):].split(".")[0]) if name.startswith(prefix) else None
 
 def no_grad(fn):
+    # Decorator to run function with no gradient computation
     def wrapped(*a, **k):
         with torch.no_grad():
             return fn(*a, **k)
     return wrapped
 
 def trainable_mlp(mlp, x):
+    # Forward pass through MLP with gradient tracking
     x = F.gelu(mlp.fc1(x), approximate="tanh")
     return mlp.drop2(mlp.fc2(mlp.norm(mlp.drop1(x))))
 
 def freeze(model, unfreeze_last):
+    # Freeze most of backbone and language encoder, unfreeze last N blocks and decoder
     for name, p in model.named_parameters():
         block = trunk_block(name)
         p.requires_grad = not name.startswith(FROZEN) or (
@@ -145,11 +156,13 @@ def freeze(model, unfreeze_last):
     enc.forward = no_grad(enc.forward)
 
 def set_train_mode(model):
+    # Set model to train mode but keep backbone and text encoder in eval
     model.train()
     model.backbone.vision_backbone.trunk.eval()
     model.backbone.language_backbone.encoder.eval()
 
 def param_groups(model):
+    # Create optimizer parameter groups with  learning rates
     groups = {}
     for name, p in model.named_parameters():
         if not p.requires_grad:
@@ -171,12 +184,14 @@ def param_groups(model):
     return list(groups.values())
 
 def lr_factor(step, total, warmup, min_ratio):
+    # Calculate learning rate multiplier 
     if step < warmup:
         return (step + 1) / warmup
     progress = min(1.0, (step - warmup) / max(1, total - warmup))
     return min_ratio + (1 - min_ratio) * 0.5 * (1 + math.cos(math.pi * progress))
 
 def build_loss(with_masks, mask_points):
+    # Build loss functions for detection and optionally segmentation
     from sam3.train.loss.loss_fns import Boxes, IABCEMdetr, Masks
     from sam3.train.loss.sam3_loss import Sam3LossWrapper
     from sam3.train.matcher import BinaryHungarianMatcherV2, BinaryOneToManyMatcher
@@ -206,6 +221,7 @@ def build_loss(with_masks, mask_points):
         use_o2m_matcher_on_o2m_aux=False, loss_fn_semantic_seg=None, scale_by_find_batch_size=True)
 
 def train_transforms(resolution=1008):
+    # Build data augmentation pipeline for training
     from sam3.train.transforms import basic_for_api as T
     from sam3.train.transforms.basic import get_random_resize_max_size, get_random_resize_scales
     from sam3.train.transforms.filter_query_transforms import (FilterCrowds, FilterEmptyTargets,
@@ -230,10 +246,12 @@ def train_transforms(resolution=1008):
             FlexibleFilterFindGetQueries(query_filter=FilterFindQueriesWithTooManyOut(max_num_objects=200))]
 
 def seed_worker(base, worker_id):
+    # Seed RNG for data loading worker reproducibility
     random.seed(base + worker_id)
     np.random.seed(base + worker_id)
 
 def build_train_dataset():
+    # Load car detection dataset from COCO JSON
     from sam3.train.data.coco_json_loaders import COCO_FROM_JSON
     from sam3.train.data.sam3_image_dataset import Sam3ImageDataset
 
@@ -248,10 +266,12 @@ def build_train_dataset():
         limit_ids=LIMIT)
 
 def collate():
+    # Create collate function for training data batches
     from sam3.train.data.collator import collate_fn_api
     return partial(collate_fn_api, repeats=1, dict_key="all", with_seg_masks=not NO_MASKS)
 
 def build_train_loader(device, epoch, dataset):
+    # Create training data loader with per-epoch seeding
     g = torch.Generator()
     g.manual_seed(SEED * 1000 + epoch)
     return torch.utils.data.DataLoader(
@@ -260,6 +280,7 @@ def build_train_loader(device, epoch, dataset):
         worker_init_fn=partial(seed_worker, SEED * 1000 + epoch * 100), collate_fn=collate())
 
 def check_labels():
+    # Visualize training dataset labels for debugging
     dataset = build_train_dataset()
     out_dir = os.path.join(OUT_DIR, "label_check")
     os.makedirs(out_dir, exist_ok=True)
@@ -289,6 +310,7 @@ def check_labels():
 
 @torch.no_grad()
 def evaluate_dev(model, device, limit=None):
+    # Evaluate model on development set and return COCO metrics
     from pycocotools.coco import COCO
     from pycocotools.cocoeval import COCOeval
     from sam3.model.sam3_image_processor import Sam3Processor
@@ -321,20 +343,24 @@ def evaluate_dev(model, device, limit=None):
     return {**stats, "n_images": len(images), "n_dets": len(dets), "seconds": round(seconds, 1)}
 
 def fmt(m):
+    # Format metrics for logging
     return f"AP {m['AP']:.4f} AP50 {m['AP50']:.4f} AP75 {m['AP75']:.4f} APs {m['AP_small']:.4f} ({m['n_images']} imgs, {m['seconds']:.0f}s)"
 
 def save_best(model, path, meta):
+    # Save best checkpoint with model state and metadata
     tmp = path + ".tmp"
     torch.save({"model": model.state_dict(), **meta}, tmp)
     os.replace(tmp, path)
 
 def save_last(model, optimizer, path, meta):
+    # Save last checkpoint with trainable params and optimizer state for resuming
     trainable = {n: p.detach().cpu() for n, p in model.named_parameters() if p.requires_grad}
     tmp = path + ".tmp"
     torch.save({"trainable": trainable, "optimizer": optimizer.state_dict(), **meta}, tmp)
     os.replace(tmp, path)
 
 def main():
+    # Main training loop: setup, training, and evaluation
     os.makedirs(OUT_DIR, exist_ok=True)
     device = pick_device(DEVICE)
     torch.manual_seed(SEED)
@@ -409,6 +435,7 @@ def main():
 
     t_start, epoch_seconds, done = time.time(), None, False
     for epoch in range(start_epoch, EPOCHS):
+        # Check time limit
         if MAX_HOURS and epoch_seconds and (time.time() - t_start + epoch_seconds) / 3600 > MAX_HOURS:
             log(f"stopping before epoch {epoch + 1}: it would pass --max-hours {MAX_HOURS}")
             break
@@ -426,6 +453,7 @@ def main():
                 targets = [model.back_convert(x) for x in b.find_targets]
                 losses = criterion(stages, targets)
             loss = losses.pop("core_loss")
+            # Skip steps with non-finite loss
             if not torch.isfinite(loss):
                 bad += 1
                 log(f"non-finite loss at epoch {epoch + 1} iter {it}, skipped ({bad} in a row)")
@@ -442,6 +470,7 @@ def main():
                     sums[k] = sums.get(k, 0.0) + v.item()
             n_sum += 1
 
+            # Optimizer step after gradient accumulation
             if (it + 1) % ACCUM:
                 continue
             factor = lr_factor(step, total_steps, WARMUP, MIN_LR_RATIO)
@@ -472,6 +501,7 @@ def main():
                 done = True
                 break
 
+        # Evaluate at end of epoch
         epoch_seconds = time.time() - t_epoch
         m = evaluate_dev(model, device, DEV_LIMIT)
         history.append({"epoch": epoch + 1, "step": step, "train_minutes": round(epoch_seconds / 60, 1), **m})
