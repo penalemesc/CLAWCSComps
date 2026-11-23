@@ -36,6 +36,9 @@
             color: #555;
             font-style: italic;
          }
+         .figure-caption a {
+            text-decoration: underline;
+         }
          .text-content {
             font-size: 1.05rem;
             line-height: 1.75;
@@ -184,12 +187,29 @@
                   </div>
                </div>
 
+               <!-- HOW A DETECTION IS SCORED -->
+               <h2 class="section-title">How a Detection Is Scored</h2>
+               <div class="figure-card">
+                  <img src="img/results_iou.png" alt="A photo of a car with a red box and a purple box that partly overlap. The overlap is shaded yellow. Next to it, IoU is written as the size of the yellow overlap divided by the size of the blue area that both boxes cover. A detection is correct if IoU is at least 0.5.">
+                  <div class="figure-caption">
+                     <strong>Figure 1:</strong> Intersection over union (IoU). The red box is the true box and the purple box is the model's box. The yellow area is where the two boxes overlap. The blue area is everything the two boxes cover together. Image from <a href="https://datahacker.rs/deep-learning-intersection-over-union/" target="_blank" rel="noopener">datahacker.rs, &ldquo;#026 CNN Intersection over Union&rdquo;</a>.
+                  </div>
+               </div>
+               <div class="text-content">
+                  <p>
+                     Each model draws a box around every car it finds. We compare that box with the true box from our labels. Intersection over union (IoU) is the area the two boxes share divided by the total area they cover. An IoU of 1 is a perfect fit, and an IoU of 0 means the boxes do not touch. A detection counts as correct when its IoU is at least 0.5.
+                  </p>
+                  <p>
+                     AP50 and F1 use this 0.5 cutoff. Box AP repeats the test at ten cutoffs from 0.5 to 0.95 and averages the results, so it also rewards tight boxes.
+                  </p>
+               </div>
+
                <!-- SECTION 1: ACCURACY -->
                <h2 class="section-title">Accuracy</h2>
                <div class="figure-card">
                   <img src="img/results_accuracy.png" alt="Bar chart of box AP, AP50, AP on small cars and F1 for the four models. In every group the scores rise from zero-shot YOLO26m to fine-tuned SAM 3.">
                   <div class="figure-caption">
-                     <strong>Figure 1:</strong> Scores of the four models on the test set. Higher is better. The small black lines are 95% confidence intervals.
+                     <strong>Figure 2:</strong> Scores of the four models on the test set. Higher is better. The small black lines are 95% confidence intervals.
                   </div>
                </div>
                <div class="text-content">
@@ -206,7 +226,7 @@
                <div class="figure-card">
                   <img src="img/results_speed_memory.png" alt="Two bar charts. YOLO26m needs 10.4 ms per image and 159 MiB of GPU memory. SAM 3 needs about 430 ms per image and about 5,990 MiB.">
                   <div class="figure-caption">
-                     <strong>Figure 2:</strong> Time per image and peak GPU memory on our lab GPU, an NVIDIA RTX A2000. Lower is better.
+                     <strong>Figure 3:</strong> Time per image and peak GPU memory on our lab GPU, an NVIDIA RTX A2000. Lower is better.
                   </div>
                </div>
                <div class="text-content">
@@ -220,7 +240,7 @@
                <div class="figure-card">
                   <img src="img/results_missed_cars.jpg" alt="A street photo taken from a car. Sixteen small or partly hidden cars are marked with yellow boxes. Thirteen other cars are marked with white boxes.">
                   <div class="figure-caption">
-                     <strong>Figure 3:</strong> One test image. The yellow boxes mark 16 cars that none of the four models found. The white boxes mark cars that at least one model found.
+                     <strong>Figure 4:</strong> One test image. The yellow boxes mark 16 cars that none of the four models found. The white boxes mark cars that at least one model found.
                   </div>
                </div>
                <div class="text-content">
