@@ -100,7 +100,7 @@ def run_cocoeval(coco_gt, results, iou_type):
     return stats, per_area
 
 
-# Input: per-image records from run_cocoeval, image indices (may repeat)
+# Input: per-image records from run_cocoeval, image indices
 # Output: AP at each of the 10 IoU thresholds (NaN if there are no cars)
 # Does: the same 101-point calculation as COCOeval.accumulate, on the chosen images
 def ap_per_iou(records, idx):
@@ -265,7 +265,6 @@ def evaluate_split(gt_path, preds, args, iou_type):
 
 
 # Input: model name, pycocotools stats, per-image records, number of images
-# Output: nothing; stops with an error if the numbers disagree
 # Does: checks that ap_per_iou reproduces pycocotools exactly on the full set
 def check_fast_path(name, stats, per_area, n):
     fast = summary_from_records(per_area, range(n))
@@ -379,7 +378,6 @@ def main():
 
 
 # Input: the metrics report
-# Output: nothing; prints a table
 # Does: shows the main numbers and CIs for each model and each pair of models
 def print_table(report):
     ci_all = report.get("bootstrap", {}).get("ci95", {})
